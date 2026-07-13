@@ -2,9 +2,28 @@
   "name": "@gebinee/components",
   "version": "1.0.0",
   "description": "gebinee 组件库",
+  "keywords": [
+    "gebinee",
+    "tauri",
+    "vue",
+    "element-plus",
+    "components",
+    "settings",
+    "updater"
+  ],
+  "homepage": "https://github.com/gebinee/components#readme",
+  "bugs": {
+    "url": "https://github.com/gebinee/components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gebinee/components.git"
+  },
+  "license": "MIT",
+  "author": "Pueraria lobata",
   "type": "module",
-  "main": "src/index.js",
-  "module": "src/index.js",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
   "exports": {
     ".": {
       "import": "./src/index.js",
@@ -14,17 +33,6 @@
   "files": [
     "src"
   ],
-  "keywords": [
-    "tauri",
-    "vue",
-    "element-plus",
-    "components",
-    "settings",
-    "updater"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
   "peerDependencies": {
     "@element-plus/icons-vue": "^2.3.0",
     "@tauri-apps/api": "^2",
