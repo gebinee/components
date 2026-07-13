@@ -2,7 +2,6 @@
   "name": "@gebinee/components",
   "version": "1.0.0",
   "description": "gebinee 组件库",
-  "private": true,
   "type": "module",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -10,8 +9,7 @@
     ".": {
       "import": "./src/index.js",
       "default": "./src/index.js"
-    },
-    "./style.css": "./src/style.css"
+    }
   },
   "files": [
     "src"
@@ -24,6 +22,9 @@
     "settings",
     "updater"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@element-plus/icons-vue": "^2.3.0",
     "@tauri-apps/api": "^2",
