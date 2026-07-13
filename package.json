@@ -1,0 +1,36 @@
+{
+  "name": "@gebinee/components",
+  "version": "1.0.0",
+  "description": "gebinee 组件库",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./style.css": "./src/style.css"
+  },
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "tauri",
+    "vue",
+    "element-plus",
+    "components",
+    "settings",
+    "updater"
+  ],
+  "peerDependencies": {
+    "@element-plus/icons-vue": "^2.3.0",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-process": "^2",
+    "@tauri-apps/plugin-updater": "^2",
+    "element-plus": "^2.14.0",
+    "marked": "^18.0.0",
+    "vue": "^3.5.0"
+  }
+}
