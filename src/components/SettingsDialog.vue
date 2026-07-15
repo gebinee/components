@@ -2,14 +2,18 @@
 import { ref, computed, watch } from "vue";
 import { getVersion } from "@tauri-apps/api/app";
 import {
+  Brush,
   Check,
   Close,
+  Coin,
   InfoFilled,
   Refresh,
 } from "@element-plus/icons-vue";
 // 显式导入 Element Plus 组件，使包自包含、不依赖消费项目的自动导入配置
 import { ElDialog, ElIcon, ElButton } from "element-plus";
 import UpdateDialog from "./UpdateDialog.vue";
+import AppearanceTab from "./AppearanceTab.vue";
+import DatabaseTab from "./DatabaseTab.vue";
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -33,9 +37,27 @@ const props = defineProps({
   saving: { type: Boolean, default: false },
   // 默认激活的 tab name。空字符串表示自动选中第一个 tab
   activeTabName: { type: String, default: "" },
+  // 是否显示内置"外观"tab
+  showAppearanceTab: { type: Boolean, default: false },
+  // 是否显示内置"数据库"tab
+  showDatabaseTab: { type: Boolean, default: false },
+  // 外观配置（v-model:appearance）
+  appearance: { type: Object, default: () => ({}) },
+  // 数据库配置（v-model:database）
+  database: { type: Object, default: () => ({}) },
+  // 字体选项：[{ label, value }]
+  fontOptions: { type: Array, default: () => [] },
 });
 
-const emit = defineEmits(["update:visible", "save", "cancel"]);
+const emit = defineEmits([
+  "update:visible",
+  "update:appearance",
+  "update:database",
+  "pick-database-file",
+  "pick-font-file",
+  "save",
+  "cancel",
+]);
 
 const innerActive = ref("");
 const updateDialogVisible = ref(false);
@@ -46,17 +68,31 @@ const displayVersion = computed(
   () => props.appVersion || fetchedVersion.value || "未知"
 );
 
+// 完整的 tab 列表（内置 database → 内置 appearance → 自定义 tabs → 内置"关于"tab）
+const allTabs = computed(() => {
+  const list = [];
+  if (props.showDatabaseTab) {
+    list.push({ name: "__database__", label: "数据库", icon: Coin, builtin: true });
+  }
+  if (props.showAppearanceTab) {
+    list.push({ name: "__appearance__", label: "外观", icon: Brush, builtin: true });
+  }
+  list.push(...props.tabs);
+  if (props.showAboutTab) {
+    list.push({ name: "__about__", label: "关于", icon: InfoFilled, builtin: true });
+  }
+  return list;
+});
+
 watch(
   () => props.visible,
   (v) => {
     if (v) {
-      // 打开时确定默认激活的 tab
+      // 打开时确定默认激活的 tab（按 allTabs 顺序取第一个）
       if (props.activeTabName) {
         innerActive.value = props.activeTabName;
-      } else if (props.tabs.length > 0) {
-        innerActive.value = props.tabs[0].name;
-      } else if (props.showAboutTab) {
-        innerActive.value = "__about__";
+      } else if (allTabs.value.length > 0) {
+        innerActive.value = allTabs.value[0].name;
       }
       // 若未传 appVersion，则运行时获取
       if (!props.appVersion && !fetchedVersion.value) {
@@ -69,13 +105,16 @@ watch(
   { immediate: true }
 );
 
-// 完整的 tab 列表（自定义 tabs + 内置"关于"tab）
-const allTabs = computed(() => {
-  const list = [...props.tabs];
-  if (props.showAboutTab) {
-    list.push({ name: "__about__", label: "关于", icon: InfoFilled, builtin: true });
-  }
-  return list;
+// 外观配置双向代理
+const appearanceProxy = computed({
+  get: () => props.appearance,
+  set: (v) => emit("update:appearance", v),
+});
+
+// 数据库配置双向代理
+const databaseProxy = computed({
+  get: () => props.database,
+  set: (v) => emit("update:database", v),
 });
 
 function onSave() {
@@ -87,7 +126,6 @@ function onCancel() {
   emit("update:visible", false);
 }
 </script>
-
 <template>
   <el-dialog
     :model-value="visible"
@@ -114,6 +152,31 @@ function onCancel() {
       </aside>
 
       <div class="settings-content">
+        <!-- 内置"数据库"tab -->
+        <div
+          v-if="showDatabaseTab"
+          v-show="innerActive === '__database__'"
+          class="tab-pane"
+        >
+          <DatabaseTab
+            v-model="databaseProxy"
+            @pick-database-file="emit('pick-database-file')"
+          />
+        </div>
+
+        <!-- 内置"外观"tab -->
+        <div
+          v-if="showAppearanceTab"
+          v-show="innerActive === '__appearance__'"
+          class="tab-pane"
+        >
+          <AppearanceTab
+            v-model="appearanceProxy"
+            :font-options="fontOptions"
+            @pick-font-file="emit('pick-font-file')"
+          />
+        </div>
+
         <!-- 自定义 tab 内容：每个 tab 通过 #tab-{name} 插槽传入 -->
         <div
           v-for="tab in tabs"
@@ -175,7 +238,6 @@ function onCancel() {
     />
   </el-dialog>
 </template>
-
 <style scoped>
 .settings-layout {
   display: flex;
