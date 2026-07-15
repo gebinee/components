@@ -1,0 +1,11 @@
+/* 输入框样式 —— 由消费项目在 main.js 引入 */
+
+/* 统一输入框尺寸（文字 18px，高度 40px，placeholder 16px） */
+.el-input.input-lg .el-input__inner,
+.el-input.input-lg .el-textarea__inner {
+  font-size: 18px;
+  height: 40px;
+}
+.el-input.input-lg .el-input__inner::placeholder {
+  font-size: 16px;
+}
