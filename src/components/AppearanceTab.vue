@@ -1,24 +1,34 @@
-<script setup>
+<script setup lang="ts">
 import { Upload } from "@element-plus/icons-vue";
 import { ElForm, ElFormItem, ElDivider, ElRadioGroup, ElRadioButton, ElSelect, ElOption, ElIcon } from "element-plus";
 import { computed } from "vue";
 import GebineeButton from "./GebineeButton.vue";
+import type { AppearanceSettings, FontOption, ThemeMode } from "../types";
 
-const props = defineProps({
-  modelValue: { type: Object, required: true },
-  fontOptions: { type: Array, default: () => [] },
-});
+const props = withDefaults(
+  defineProps<{
+    modelValue: AppearanceSettings;
+    fontOptions?: FontOption[];
+  }>(),
+  { fontOptions: () => [] },
+);
 
-const emit = defineEmits(["update:modelValue", "pick-font-file"]);
+const emit = defineEmits<{
+  "update:modelValue": [value: AppearanceSettings];
+  "pick-font-file": [];
+}>();
 
-const themeOptions = [
+const themeOptions: { label: string; value: ThemeMode }[] = [
   { label: "浅色模式", value: "light" },
   { label: "深色模式", value: "dark" },
   { label: "跟随系统", value: "auto" },
 ];
 
 // 代理单个字段的更新
-function updateField(field, value) {
+function updateField<K extends keyof AppearanceSettings>(
+  field: K,
+  value: AppearanceSettings[K],
+): void {
   emit("update:modelValue", { ...props.modelValue, [field]: value });
 }
 

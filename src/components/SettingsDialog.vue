@@ -1,56 +1,82 @@
-<script setup>
+<script setup lang="ts">
 import { Brush, Check, Close, Coin, InfoFilled, Refresh } from "@element-plus/icons-vue";
 import { getVersion } from "@tauri-apps/api/app";
 import { ElDialog, ElIcon } from "element-plus";
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, type Component } from "vue";
 import AppearanceTab from "./AppearanceTab.vue";
 import DatabaseTab from "./DatabaseTab.vue";
 import GebineeButton from "./GebineeButton.vue";
 import UpdateDialog from "./UpdateDialog.vue";
+import type {
+  AppearanceSettings,
+  DatabaseConfig,
+  FontOption,
+  SettingsTab,
+} from "../types";
 
-const props = defineProps({
-  visible: { type: Boolean, default: false },
-  // 应用名称（显示在"关于"tab）
-  appName: { type: String, default: "" },
-  // 应用图标组件（Element Plus icon 组件，如 EditPen）
-  appIcon: { type: [Object, Function], default: null },
-  // 应用版本号。不传则运行时通过 getVersion() 读取 tauri.conf.json
-  appVersion: { type: String, default: "" },
-  // 对话框标题
-  title: { type: String, default: "软件设置" },
-  // 对话框宽度
-  width: { type: String, default: "640px" },
-  // 自定义 tab 列表：[{ name: 'database', label: '数据库', icon: Coin }]
-  tabs: { type: Array, default: () => [] },
-  // 是否显示内置"关于"tab
-  showAboutTab: { type: Boolean, default: true },
-  // 是否在"关于"tab 显示"检查更新"按钮
-  showUpdateButton: { type: Boolean, default: true },
-  // 保存按钮 loading 状态（由父组件控制，因为保存逻辑在父组件中）
-  saving: { type: Boolean, default: false },
-  // 默认激活的 tab name。空字符串表示自动选中第一个 tab
-  activeTabName: { type: String, default: "" },
-  // 是否显示内置"外观"tab
-  showAppearanceTab: { type: Boolean, default: false },
-  // 是否显示内置"数据库"tab
-  showDatabaseTab: { type: Boolean, default: false },
-  // 外观配置（v-model:appearance）
-  appearance: { type: Object, default: () => ({}) },
-  // 数据库配置（v-model:database）
-  database: { type: Object, default: () => ({}) },
-  // 字体选项：[{ label, value }]
-  fontOptions: { type: Array, default: () => [] },
-});
+const props = withDefaults(
+  defineProps<{
+    visible?: boolean;
+    // 应用名称（显示在"关于"tab）
+    appName?: string;
+    // 应用图标组件（Element Plus icon 组件，如 EditPen）
+    appIcon?: Component | null;
+    // 应用版本号。不传则运行时通过 getVersion() 读取 tauri.conf.json
+    appVersion?: string;
+    // 对话框标题
+    title?: string;
+    // 对话框宽度
+    width?: string;
+    // 自定义 tab 列表：[{ name: 'database', label: '数据库', icon: Coin }]
+    tabs?: SettingsTab[];
+    // 是否显示内置"关于"tab
+    showAboutTab?: boolean;
+    // 是否在"关于"tab 显示"检查更新"按钮
+    showUpdateButton?: boolean;
+    // 保存按钮 loading 状态（由父组件控制，因为保存逻辑在父组件中）
+    saving?: boolean;
+    // 默认激活的 tab name。空字符串表示自动选中第一个 tab
+    activeTabName?: string;
+    // 是否显示内置"外观"tab
+    showAppearanceTab?: boolean;
+    // 是否显示内置"数据库"tab
+    showDatabaseTab?: boolean;
+    // 外观配置（v-model:appearance）
+    appearance?: AppearanceSettings;
+    // 数据库配置（v-model:database）
+    database?: DatabaseConfig;
+    // 字体选项：[{ label, value }]
+    fontOptions?: FontOption[];
+  }>(),
+  {
+    visible: false,
+    appName: "",
+    appIcon: null,
+    appVersion: "",
+    title: "软件设置",
+    width: "640px",
+    tabs: () => [],
+    showAboutTab: true,
+    showUpdateButton: true,
+    saving: false,
+    activeTabName: "",
+    showAppearanceTab: false,
+    showDatabaseTab: false,
+    appearance: () => ({}),
+    database: () => ({}),
+    fontOptions: () => [],
+  },
+);
 
-const emit = defineEmits([
-  "update:visible",
-  "update:appearance",
-  "update:database",
-  "pick-database-file",
-  "pick-font-file",
-  "save",
-  "cancel",
-]);
+const emit = defineEmits<{
+  "update:visible": [value: boolean];
+  "update:appearance": [value: AppearanceSettings];
+  "update:database": [value: DatabaseConfig];
+  "pick-database-file": [];
+  "pick-font-file": [];
+  save: [];
+  cancel: [];
+}>();
 
 const innerActive = ref("");
 const updateDialogVisible = ref(false);
@@ -58,12 +84,12 @@ const fetchedVersion = ref("");
 
 // 版本号：优先用 prop 传入，否则运行时读取
 const displayVersion = computed(
-  () => props.appVersion || fetchedVersion.value || "未知"
+  () => props.appVersion || fetchedVersion.value || "未知",
 );
 
 // 完整的 tab 列表（内置 database → 内置 appearance → 自定义 tabs → 内置"关于"tab）
-const allTabs = computed(() => {
-  const list = [];
+const allTabs = computed<SettingsTab[]>(() => {
+  const list: SettingsTab[] = [];
   if (props.showDatabaseTab) {
     list.push({ name: "__database__", label: "数据库", icon: Coin, builtin: true });
   }
@@ -90,12 +116,12 @@ watch(
       // 若未传 appVersion，则运行时获取
       if (!props.appVersion && !fetchedVersion.value) {
         getVersion()
-          .then((v) => (fetchedVersion.value = v))
+          .then((ver) => (fetchedVersion.value = ver))
           .catch(() => (fetchedVersion.value = "未知"));
       }
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 外观配置双向代理
@@ -110,11 +136,11 @@ const databaseProxy = computed({
   set: (v) => emit("update:database", v),
 });
 
-function onSave() {
+function onSave(): void {
   emit("save");
 }
 
-function onCancel() {
+function onCancel(): void {
   emit("cancel");
   emit("update:visible", false);
 }

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ElButton } from "element-plus";
 
 defineOptions({ name: "GebineeButton", inheritAttrs: false });

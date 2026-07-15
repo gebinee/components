@@ -1,11 +1,12 @@
 // 主题模式应用工具
+import type { AppearanceSettings, ThemeMode } from "../types";
 
 let mediaListenerBound = false;
-let currentTheme = "auto";
+let currentTheme: ThemeMode = "auto";
 
-function applyTheme(theme) {
+function applyTheme(theme: ThemeMode): void {
   const root = document.documentElement;
-  const setDark = (isDark) => {
+  const setDark = (isDark: boolean) => {
     root.classList.toggle("dark", isDark);
   };
 
@@ -20,7 +21,7 @@ function applyTheme(theme) {
 }
 
 // 监听系统主题变化（仅在 auto 模式下生效）
-function ensureMediaListener() {
+function ensureMediaListener(): void {
   if (mediaListenerBound) return;
   mediaListenerBound = true;
   const mql = window.matchMedia("(prefers-color-scheme: dark)");
@@ -31,11 +32,8 @@ function ensureMediaListener() {
   });
 }
 
-/**
- * 应用外观设置到 CSS 变量与主题
- * @param {Object} settings - { font_size, word_font, phonetic_font, ui_font, theme }
- */
-export function applyAppearance(settings) {
+/** 应用外观设置到 CSS 变量与主题 */
+export function applyAppearance(settings: AppearanceSettings): void {
   const root = document.documentElement;
 
   // 字体大小
@@ -59,6 +57,6 @@ export function applyAppearance(settings) {
 }
 
 /** 判断字体名是否为系统/内置字体 */
-export function isSystemFontName(name) {
+export function isSystemFontName(name: string | null | undefined): boolean {
   return !name || name === "system-ui" || name === "gebinee";
 }

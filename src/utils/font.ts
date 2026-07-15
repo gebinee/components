@@ -1,10 +1,11 @@
 // 字体注册工具
 // 消费项目需提供读取字体 data URL 的函数，通过 registerFontLoader 注册
+import type { CustomFont, FontLoaderFn } from "../types";
 
-const injectedFonts = new Set();
-let fontLoaderFn = null;
+const injectedFonts = new Set<string>();
+let fontLoaderFn: FontLoaderFn | null = null;
 
-function injectFontFace(name, url, format = "truetype") {
+function injectFontFace(name: string, url: string, format = "truetype"): void {
   const id = `fontface-${name}`;
   if (document.getElementById(id)) return;
   const style = document.createElement("style");
@@ -13,29 +14,26 @@ function injectFontFace(name, url, format = "truetype") {
   document.head.appendChild(style);
 }
 
-/**
- * 注册字体加载器（消费项目在初始化时调用）
- * @param {(filePath: string) => Promise<string>} fn - 返回字体文件的 data URL
- */
-export function registerFontLoader(fn) {
+/** 注册字体加载器（消费项目在初始化时调用） */
+export function registerFontLoader(fn: FontLoaderFn): void {
   fontLoaderFn = fn;
 }
 
-/**
- * 注册一个自定义字体
- * @param {{ name: string, file_path: string }} font
- */
-export async function registerCustomFont(font) {
+/** 注册一个自定义字体 */
+export async function registerCustomFont(font: CustomFont): Promise<void> {
   if (!font || injectedFonts.has(font.name) || !fontLoaderFn) return;
   const dataUrl = await fontLoaderFn(font.file_path);
   const ext = (font.file_path.split(".").pop() || "ttf").toLowerCase();
-  const format = ext === "woff2" ? "woff2" : ext === "woff" ? "woff" : ext === "otf" ? "opentype" : "truetype";
+  const format =
+    ext === "woff2" ? "woff2" : ext === "woff" ? "woff" : ext === "otf" ? "opentype" : "truetype";
   injectFontFace(font.name, dataUrl, format);
   injectedFonts.add(font.name);
 }
 
 /** 批量注册自定义字体 */
-export async function registerCustomFonts(fonts) {
+export async function registerCustomFonts(
+  fonts: CustomFont[] | null | undefined,
+): Promise<void> {
   if (!fonts) return;
   for (const f of fonts) {
     try {

@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ref, shallowRef, computed } from "vue";
 import { marked } from "marked";
-import { check } from "@tauri-apps/plugin-updater";
+import { check, type Update } from "@tauri-apps/plugin-updater";
 import { relaunch } from "@tauri-apps/plugin-process";
-import { errorMessage as defaultErrorMessage } from "../utils/error.js";
+import { errorMessage as defaultErrorMessage } from "../utils/error";
 import {
   CircleCheck,
   CircleCheckFilled,
@@ -15,16 +15,26 @@ import {
 // 显式导入 Element Plus 组件，使包自包含、不依赖消费项目的自动导入配置
 import { ElDialog, ElIcon, ElProgress } from "element-plus";
 import GebineeButton from "./GebineeButton.vue";
+import type { ErrorMessageFn } from "../types";
 
-const props = defineProps({
-  visible: { type: Boolean, default: false },
-  // 自定义错误信息提取函数（可选）。不传则使用包内默认实现
-  errorMessageFn: { type: Function, default: null },
-  // 检查更新超时时间（毫秒），默认 20 秒
-  timeout: { type: Number, default: 20000 },
-});
+const props = withDefaults(
+  defineProps<{
+    visible?: boolean;
+    // 自定义错误信息提取函数（可选）。不传则使用包内默认实现
+    errorMessageFn?: ErrorMessageFn | null;
+    // 检查更新超时时间（毫秒），默认 20 秒
+    timeout?: number;
+  }>(),
+  {
+    visible: false,
+    errorMessageFn: null,
+    timeout: 20000,
+  },
+);
 
-const emit = defineEmits(["update:visible"]);
+const emit = defineEmits<{
+  "update:visible": [value: boolean];
+}>();
 
 // 配置 marked：启用 GFM（表格、删除线、任务列表等）
 marked.setOptions({
@@ -32,26 +42,27 @@ marked.setOptions({
   breaks: true,
 });
 
-function errMsg(e) {
+function errMsg(e: unknown): string {
   const fn = props.errorMessageFn || defaultErrorMessage;
   return fn(e);
 }
 
 // 状态机：checking -> available -> noUpdate -> error
 // available 下点击"立即更新" -> downloading -> installing
-const status = ref("checking");
+type Status = "checking" | "available" | "noUpdate" | "downloading" | "installing" | "error";
+const status = ref<Status>("checking");
 // Update 对象内部含 private 字段，必须用 shallowRef 避免 Vue 响应式代理破坏其访问
-const updateInfo = shallowRef(null);
+const updateInfo = shallowRef<Update | null>(null);
 const errorMsg = ref("");
 const percent = ref(0);
 
 // 将更新说明 markdown 解析为 HTML
 const releaseNotesHtml = computed(() => {
   if (!updateInfo.value || !updateInfo.value.body) return "";
-  return marked.parse(updateInfo.value.body);
+  return marked.parse(updateInfo.value.body) as string;
 });
 
-async function onCheck() {
+async function onCheck(): Promise<void> {
   status.value = "checking";
   errorMsg.value = "";
   updateInfo.value = null;
@@ -70,13 +81,13 @@ async function onCheck() {
   }
 }
 
-async function onInstall() {
+async function onInstall(): Promise<void> {
   status.value = "downloading";
   percent.value = 0;
   try {
     let downloaded = 0;
     let contentLength = 0;
-    await updateInfo.value.downloadAndInstall((event) => {
+    await updateInfo.value?.downloadAndInstall((event) => {
       switch (event.event) {
         case "Started":
           contentLength = event.data.contentLength || 0;
@@ -86,7 +97,7 @@ async function onInstall() {
           if (contentLength > 0) {
             percent.value = Math.min(
               100,
-              Math.round((downloaded / contentLength) * 100)
+              Math.round((downloaded / contentLength) * 100),
             );
           }
           break;
@@ -103,12 +114,12 @@ async function onInstall() {
   }
 }
 
-function onClose() {
+function onClose(): void {
   emit("update:visible", false);
 }
 
 // 对话框打开时自动检查
-function onOpen() {
+function onOpen(): void {
   onCheck();
 }
 </script>
@@ -134,14 +145,14 @@ function onOpen() {
       <div v-else-if="status === 'available'" class="state">
         <el-icon :size="36" color="#2da44e"><CircleCheckFilled /></el-icon>
         <p class="new-version">
-          发现新版本 <strong>v{{ updateInfo.version }}</strong>
+          发现新版本 <strong v-if="updateInfo">v{{ updateInfo.version }}</strong>
         </p>
-        <div v-if="updateInfo.body" class="release-notes">
+        <div v-if="updateInfo?.body" class="release-notes">
           <div class="notes-title">更新说明：</div>
           <div class="markdown-body" v-html="releaseNotesHtml"></div>
         </div>
-        <p v-if="updateInfo.date" class="pub-date">
-          发布日期：{{ new Date(updateInfo.date).toLocaleDateString() }}
+        <p v-if="updateInfo?.date" class="pub-date">
+          发布日期：{{ updateInfo ? new Date(updateInfo.date).toLocaleDateString() : "" }}
         </p>
       </div>
 
