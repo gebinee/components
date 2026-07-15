@@ -1,0 +1,4 @@
+/* 统一样式入口 —— 消费项目可整体引入：import "@gebinee/components/styles" */
+@import "./base.css";
+@import "./buttons.css";
+@import "./inputs.css";
