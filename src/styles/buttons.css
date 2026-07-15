@@ -1,0 +1,33 @@
+/* 全局按钮文字 16px */
+.el-button {
+  font-size: 16px;
+}
+
+/* 统一按钮高度（与 input-lg 40px 协调） */
+.el-button.btn-side {
+  height: 38px;
+}
+
+/* GitHub 绿色风格按钮 */
+.el-button.btn-green {
+  --el-button-bg-color: #2da44e;
+  --el-button-border-color: rgba(27, 31, 36, 0.15);
+  --el-button-text-color: #ffffff;
+  --el-button-hover-bg-color: #2c974b;
+  --el-button-hover-border-color: rgba(27, 31, 36, 0.15);
+  --el-button-hover-text-color: #ffffff;
+  --el-button-active-bg-color: #298e46;
+  --el-button-active-border-color: rgba(27, 31, 36, 0.15);
+  --el-button-active-text-color: #ffffff;
+  --el-button-disabled-bg-color: #94d3a3;
+  --el-button-disabled-border-color: rgba(27, 31, 36, 0.1);
+  --el-button-disabled-text-color: #ffffff;
+}
+
+/* 浅色按钮 hover 时变为 GitHub 绿色实心 */
+.el-button.btn-success-hover:hover,
+.el-button.btn-success-hover:focus {
+  --el-button-hover-bg-color: #2da44e;
+  --el-button-hover-border-color: rgba(27, 31, 36, 0.15);
+  --el-button-hover-text-color: #ffffff;
+}
