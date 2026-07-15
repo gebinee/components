@@ -146,7 +146,7 @@ function onOpen() {
 
       <!-- 已是最新 -->
       <div v-else-if="status === 'noUpdate'" class="state">
-        <el-icon :size="36" color="#409eff"><CircleCheck /></el-icon>
+        <el-icon :size="36" color="#2da44e"><CircleCheck /></el-icon>
         <p>当前已是最新版本</p>
       </div>
 
