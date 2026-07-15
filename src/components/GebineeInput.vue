@@ -13,14 +13,14 @@ defineOptions({ name: "GebineeInput", inheritAttrs: false });
 </template>
 
 <style scoped>
-.gebinee-input :deep(.el-input__inner) {
+:deep(.el-input__inner) {
   font-size: 18px;
   height: 38px;
 }
-.gebinee-input :deep(.el-textarea__inner) {
+:deep(.el-textarea__inner) {
   font-size: 18px;
 }
-.gebinee-input :deep(.el-input__inner::placeholder) {
+:deep(.el-input__inner::placeholder) {
   font-size: 16px;
 }
 </style>

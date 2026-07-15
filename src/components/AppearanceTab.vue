@@ -22,10 +22,6 @@ function updateField(field, value) {
   emit("update:modelValue", { ...props.modelValue, [field]: value });
 }
 
-const fontSize = computed({
-  get: () => props.modelValue.font_size ?? 14,
-  set: (v) => updateField("font_size", v),
-});
 const wordFont = computed({
   get: () => props.modelValue.word_font ?? "system-ui",
   set: (v) => updateField("word_font", v),
