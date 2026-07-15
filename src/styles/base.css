@@ -1,0 +1,58 @@
+:root {
+  --font-size: 14px;
+  --word-font: system-ui, serif; /* aae */
+  --phonetic-font: system-ui, serif; /* aae */
+  --ui-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  font-family: var(--ui-font);
+  font-size: var(--font-size);
+  color-scheme: light dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--ui-font);
+  font-size: var(--font-size);
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--el-border-color, #c0c4cc);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--el-color-primary-light-5, #909399);
+}
+
+/* 字体族辅助类 */
+.font-word {
+  font-family: var(--word-font);
+}
+.font-phonetic {
+  font-family: var(--phonetic-font);
+}
+.font-word .el-input__inner,
+.font-word.el-input .el-input__inner,
+.font-word .el-textarea__inner {
+  font-family: var(--word-font);
+}
+.font-phonetic .el-input__inner,
+.font-phonetic.el-input .el-input__inner,
+.font-phonetic .el-textarea__inner {
+  font-family: var(--phonetic-font);
+}
