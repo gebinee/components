@@ -1,6 +1,6 @@
 {
   "name": "@gebinee/components",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "gebinee 组件库",
   "keywords": [
     "gebinee",
@@ -28,7 +28,8 @@
     ".": {
       "import": "./src/index.js",
       "default": "./src/index.js"
-    }
+    },
+    "./styles": "./src/styles/index.css"
   },
   "files": [
     "src"
