@@ -1,19 +1,12 @@
 <script setup>
-import { ref, computed, watch } from "vue";
+import { Brush, Check, Close, Coin, InfoFilled, Refresh } from "@element-plus/icons-vue";
 import { getVersion } from "@tauri-apps/api/app";
-import {
-  Brush,
-  Check,
-  Close,
-  Coin,
-  InfoFilled,
-  Refresh,
-} from "@element-plus/icons-vue";
-// 显式导入 Element Plus 组件，使包自包含、不依赖消费项目的自动导入配置
-import { ElDialog, ElIcon, ElButton } from "element-plus";
-import UpdateDialog from "./UpdateDialog.vue";
+import { ElDialog, ElIcon } from "element-plus";
+import { ref, computed, watch } from "vue";
 import AppearanceTab from "./AppearanceTab.vue";
 import DatabaseTab from "./DatabaseTab.vue";
+import GebineeButton from "./GebineeButton.vue";
+import UpdateDialog from "./UpdateDialog.vue";
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -201,14 +194,13 @@ function onCancel() {
               <div class="app-version">版本 {{ displayVersion }}</div>
             </div>
           </div>
-          <el-button
+          <GebineeButton
             v-if="showUpdateButton"
-            class="btn-check-update"
             @click="updateDialogVisible = true"
           >
             <el-icon><Refresh /></el-icon>
             <span>检查更新</span>
-          </el-button>
+          </GebineeButton>
           <!-- 关于 tab 额外内容插槽 -->
           <slot name="about-extra" />
         </div>
@@ -217,18 +209,18 @@ function onCancel() {
 
     <template #footer>
       <slot name="footer-extra" />
-      <el-button class="btn-side" @click="onCancel">
+      <GebineeButton @click="onCancel">
         <el-icon><Close /></el-icon>
         <span>取消</span>
-      </el-button>
-      <el-button
-        class="btn-green btn-side"
+      </GebineeButton>
+      <GebineeButton
+        class="btn-green"
         :loading="saving"
         @click="onSave"
       >
         <el-icon><Check /></el-icon>
         <span>保存</span>
-      </el-button>
+      </GebineeButton>
     </template>
 
     <!-- 内置检查更新对话框 -->
@@ -301,16 +293,10 @@ function onCancel() {
   font-size: 14px;
   color: var(--el-text-color-secondary);
 }
-.btn-check-update {
-  height: 38px;
-}
 
 /*noinspection CssUnusedSymbol*/
 :deep(.el-divider__text) {
   font-size: 15px;
   font-weight: 600;
-}
-:deep(.btn-side) {
-  height: 38px;
 }
 </style>

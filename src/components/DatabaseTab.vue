@@ -1,7 +1,9 @@
 <script setup>
-import { computed } from "vue";
-import { ElForm, ElFormItem, ElInput, ElButton, ElIcon } from "element-plus";
 import { FolderOpened } from "@element-plus/icons-vue";
+import { ElForm, ElFormItem, ElIcon } from "element-plus";
+import { computed } from "vue";
+import GebineeButton from "./GebineeButton.vue";
+import GebineeInput from "./GebineeInput.vue";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -20,11 +22,11 @@ const dbPath = computed({
   <el-form label-position="top">
     <el-form-item label="数据库文件路径">
       <div class="db-row">
-        <el-input v-model="dbPath" :placeholder="placeholder" />
-        <el-button @click="emit('pick-database-file')">
+        <GebineeInput v-model="dbPath" :placeholder="placeholder" />
+        <GebineeButton @click="emit('pick-database-file')">
           <el-icon><FolderOpened /></el-icon>
           <span>选择</span>
-        </el-button>
+        </GebineeButton>
       </div>
     </el-form-item>
   </el-form>

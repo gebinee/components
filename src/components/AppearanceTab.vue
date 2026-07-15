@@ -1,7 +1,8 @@
 <script setup>
-import { computed } from "vue";
-import { ElForm, ElFormItem, ElDivider, ElRadioGroup, ElRadioButton, ElSelect, ElOption, ElButton, ElIcon } from "element-plus";
 import { Upload } from "@element-plus/icons-vue";
+import { ElForm, ElFormItem, ElDivider, ElRadioGroup, ElRadioButton, ElSelect, ElOption, ElIcon } from "element-plus";
+import { computed } from "vue";
+import GebineeButton from "./GebineeButton.vue";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -90,10 +91,10 @@ const theme = computed({
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-button @click="emit('pick-font-file')">
+      <GebineeButton @click="emit('pick-font-file')">
         <el-icon><Upload /></el-icon>
         <span>上传字体文件</span>
-      </el-button>
+      </GebineeButton>
       <span class="hint">支持 ttf/otf/woff/woff2</span>
     </el-form-item>
   </el-form>

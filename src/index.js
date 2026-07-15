@@ -2,6 +2,8 @@ import SettingsDialog from "./components/SettingsDialog.vue";
 import UpdateDialog from "./components/UpdateDialog.vue";
 import AppearanceTab from "./components/AppearanceTab.vue";
 import DatabaseTab from "./components/DatabaseTab.vue";
+import GebineeButton from "./components/GebineeButton.vue";
+import GebineeInput from "./components/GebineeInput.vue";
 import { errorMessage } from "./utils/error.js";
 import { applyAppearance, isSystemFontName } from "./utils/theme.js";
 import { registerFontLoader, registerCustomFont, registerCustomFonts } from "./utils/font.js";
@@ -11,6 +13,8 @@ export {
   UpdateDialog,
   AppearanceTab,
   DatabaseTab,
+  GebineeButton,
+  GebineeInput,
   errorMessage,
   applyAppearance,
   isSystemFontName,
@@ -23,6 +27,8 @@ export default {
   UpdateDialog,
   AppearanceTab,
   DatabaseTab,
+  GebineeButton,
+  GebineeInput,
   errorMessage,
   applyAppearance,
   isSystemFontName,

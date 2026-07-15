@@ -13,7 +13,8 @@ import {
   Refresh,
 } from "@element-plus/icons-vue";
 // 显式导入 Element Plus 组件，使包自包含、不依赖消费项目的自动导入配置
-import { ElDialog, ElIcon, ElButton, ElProgress } from "element-plus";
+import { ElDialog, ElIcon, ElProgress } from "element-plus";
+import GebineeButton from "./GebineeButton.vue";
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -172,24 +173,24 @@ function onOpen() {
 
     <template #footer>
       <template v-if="status === 'available'">
-        <el-button class="btn-side" @click="onClose">稍后再说</el-button>
-        <el-button class="btn-green btn-side" @click="onInstall">
+        <GebineeButton @click="onClose">稍后再说</GebineeButton>
+        <GebineeButton class="btn-green" @click="onInstall">
           <el-icon><Download /></el-icon>
           <span>立即更新</span>
-        </el-button>
+        </GebineeButton>
       </template>
       <template v-else-if="status === 'error'">
-        <el-button class="btn-side" @click="onClose">关闭</el-button>
-        <el-button class="btn-side" @click="onCheck">
+        <GebineeButton @click="onClose">关闭</GebineeButton>
+        <GebineeButton @click="onCheck">
           <el-icon><Refresh /></el-icon>
           <span>重试</span>
-        </el-button>
+        </GebineeButton>
       </template>
       <template v-else-if="status === 'noUpdate'">
-        <el-button class="btn-side" @click="onClose">关闭</el-button>
+        <GebineeButton @click="onClose">关闭</GebineeButton>
       </template>
       <template v-else>
-        <el-button class="btn-side" disabled :loading="true">请稍候</el-button>
+        <GebineeButton disabled :loading="true">请稍候</GebineeButton>
       </template>
     </template>
   </el-dialog>
@@ -331,8 +332,5 @@ function onOpen() {
   color: var(--el-text-color-secondary);
   max-width: 400px;
   word-break: break-word;
-}
-:deep(.btn-side) {
-  height: 38px;
 }
 </style>
