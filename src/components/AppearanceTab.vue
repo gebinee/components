@@ -112,6 +112,8 @@ const theme = computed({
   color: var(--el-text-color-secondary);
   margin-left: 8px;
 }
+
+/*noinspection CssUnusedSymbol*/
 :deep(.el-divider__text) {
   font-size: 15px;
   font-weight: 600;

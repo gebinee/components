@@ -5,7 +5,7 @@ defineOptions({ name: "GebineeButton", inheritAttrs: false });
 </script>
 
 <template>
-  <el-button class="gebinee-button btn-green" v-bind="$attrs">
+  <el-button class="gebinee-button" v-bind="$attrs">
     <slot />
   </el-button>
 </template>

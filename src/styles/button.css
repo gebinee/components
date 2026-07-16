@@ -1,121 +1,30 @@
-/* GitHub 风格绿色实心按钮（默认） */
+/* GitHub 风格绿色实心按钮 */
 .gebinee-button.btn-green {
-  background-color: #2da44e;
-  border-color: #2da44e;
-  color: #ffffff;
-}
-.gebinee-button.btn-green:hover,
-.gebinee-button.btn-green:focus {
-  background-color: #1a7f37;
-  border-color: #1a7f37;
-}
-.gebinee-button.btn-green:active {
-  background-color: #167629;
-  border-color: #167629;
-}
-.gebinee-button.btn-green.is-disabled,
-.gebinee-button.btn-green.is-disabled:hover {
-  background-color: #8fd9a7;
-  border-color: #8fd9a7;
+  --el-button-text-color: #ffffff;
+  --el-button-bg-color: #2da44e;
+  --el-button-border-color: rgba(27, 31, 36, 0.15);
+
+  --el-button-outline-color: #b3e19d; /* 干嘛的这个 */
+
+  --el-button-hover-text-color: #ffffff;
+  --el-button-hover-bg-color: #2c974b;
+  --el-button-hover-border-color: rgba(27, 31, 36, 0.15);
+  --el-button-hover-link-text-color: #b3e19d; /* 干嘛的这个 */
+
+  --el-button-active-color: #298e46; /* 干嘛的这个 */
+  --el-button-active-bg-color: #298e46;
+  --el-button-active-border-color: rgba(27, 31, 36, 0.15);
+  --el-button-active-text-color: #ffffff;
+
+  --el-button-disabled-text-color: #ffffff;
+  --el-button-disabled-bg-color: #94d3a3;
+  --el-button-disabled-border-color: rgba(27, 31, 36, 0.1);
 }
 
-/* 绿色描边按钮（浅色背景） */
-.gebinee-button.btn-green-outline {
-  background-color: #ffffff;
-  border-color: #2da44e;
-  color: #1a7f37;
-}
-.gebinee-button.btn-green-outline:hover,
-.gebinee-button.btn-green-outline:focus {
-  background-color: #e3f4e9;
-  border-color: #1a7f37;
-  color: #1a7f37;
-}
-
-/* 蓝色实心按钮（Element Plus primary 风格） */
-.gebinee-button.btn-blue {
-  background-color: #409eff;
-  border-color: #409eff;
-  color: #ffffff;
-}
-.gebinee-button.btn-blue:hover,
-.gebinee-button.btn-blue:focus {
-  background-color: #337ecc;
-  border-color: #337ecc;
-}
-
-/* 蓝色描边按钮 */
-.gebinee-button.btn-blue-outline {
-  background-color: #ffffff;
-  border-color: #409eff;
-  color: #409eff;
-}
-.gebinee-button.btn-blue-outline:hover,
-.gebinee-button.btn-blue-outline:focus {
-  background-color: #ecf5ff;
-  border-color: #337ecc;
-  color: #337ecc;
-}
-
-/* 红色实心按钮（危险操作） */
-.gebinee-button.btn-red {
-  background-color: #cf222e;
-  border-color: #cf222e;
-  color: #ffffff;
-}
-.gebinee-button.btn-red:hover,
-.gebinee-button.btn-red:focus {
-  background-color: #a40e26;
-  border-color: #a40e26;
-}
-
-/* 红色描边按钮 */
-.gebinee-button.btn-red-outline {
-  background-color: #ffffff;
-  border-color: #cf222e;
-  color: #cf222e;
-}
-.gebinee-button.btn-red-outline:hover,
-.gebinee-button.btn-red-outline:focus {
-  background-color: #ffe6e6;
-  border-color: #a40e26;
-  color: #a40e26;
-}
-
-/* 橙色描边按钮（警告/清除） */
-.gebinee-button.btn-orange-outline {
-  background-color: #ffffff;
-  border-color: #e5a100;
-  color: #9a6700;
-}
-.gebinee-button.btn-orange-outline:hover,
-.gebinee-button.btn-orange-outline:focus {
-  background-color: #fff8e1;
-  border-color: #9a6700;
-  color: #9a6700;
-}
-
-/* 成功描边按钮（保留 Element Plus success 浅色风格，用于编辑等次级操作） */
-.gebinee-button.btn-success-outline {
-  background-color: #ffffff;
-  border-color: #2da44e;
-  color: #1a7f37;
-}
-.gebinee-button.btn-success-outline:hover,
-.gebinee-button.btn-success-outline:focus {
-  background-color: #e3f4e9;
-  border-color: #1a7f37;
-}
-
-/* 默认描边按钮（中性，取消/关闭） */
-.gebinee-button.btn-default-outline {
-  background-color: #ffffff;
-  border-color: #dcdfe6;
-  color: #606266;
-}
-.gebinee-button.btn-default-outline:hover,
-.gebinee-button.btn-default-outline:focus {
-  background-color: #f5f7fa;
-  border-color: #c0c4cc;
-  color: #606266;
+/* 浅色按钮 hover 时变为 GitHub 绿色实心 */
+.gebinee-button.btn-success-hover:hover,
+.gebinee-button.btn-success-hover:focus {
+  --el-button-hover-bg-color: #2da44e;
+  --el-button-hover-border-color: rgba(27, 31, 36, 0.15);
+  --el-button-hover-text-color: #ffffff;
 }

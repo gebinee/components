@@ -17,6 +17,7 @@ defineSlots<{
   </el-input>
 </template>
 
+<!--suppress CssUnusedSymbol -->
 <style scoped>
 :deep(.el-input__inner) {
   font-size: 18px;

@@ -45,6 +45,8 @@ const dbPath = computed({
   gap: 8px;
   width: 100%;
 }
+
+/*noinspection CssUnusedSymbol*/
 .db-row :deep(.el-input) {
   flex: 1;
 }
