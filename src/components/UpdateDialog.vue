@@ -152,7 +152,7 @@ function onOpen(): void {
           发现新版本 <strong v-if="updateInfo">v{{ updateInfo.version }}</strong>
         </p>
         <div v-if="updateInfo?.body" class="release-notes">
-          <div class="notes-title">更新说明：</div>
+          <div class="notes-title">版本说明：</div>
           <div class="markdown-body" v-html="releaseNotesHtml"></div>
         </div>
         <p v-if="updateInfo?.date" class="pub-date">
