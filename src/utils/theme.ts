@@ -56,9 +56,6 @@ export function applyAppearance(settings: AppearanceSettings): void {
   root.style.setProperty("--gebinee-phonetic-font", settings.phonetic_font || "gebinee");
   root.style.setProperty("--gebinee-ui-font", settings.ui_font || "system-ui");
 
-  // UI 字体同时驱动 Element Plus 全局字体（UI 字体本就应全局生效）
-  root.style.setProperty("--el-font-family", settings.ui_font || "system-ui");
-
   // 主题
   currentTheme = settings.theme || "auto";
   ensureMediaListener();
