@@ -22,11 +22,6 @@
 
 /* ========= .gebinee 作用域样式 ========= */
 .gebinee {
-  /*
-   * 字体变量由 applyAppearance() 设置到 :root，统一加 --gebinee 前缀。
-   * 使用者通过 var(--gebinee-word-font) 等引用这些字体，自行控制应用范围。
-   * 末尾 sans-serif 作为通用字体族兜底。
-   */
   font-family: var(--gebinee-ui-font), sans-serif;
   font-size: var(--gebinee-font-size);
   color-scheme: light dark;

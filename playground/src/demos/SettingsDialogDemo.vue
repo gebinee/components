@@ -7,7 +7,6 @@ const visible = ref(false);
 const saving = ref(false);
 
 const appearance = ref<AppearanceSettings>({
-  font_size: 16,
   word_font: "system-ui",
   phonetic_font: "system-ui",
   ui_font: "system-ui",
@@ -45,7 +44,6 @@ function onSave() {
       <div class="snapshot">
         <div><span>数据库路径：</span>{{ database.db_path || "(空)" }}</div>
         <div><span>主题：</span>{{ appearance.theme }}</div>
-        <div><span>字体大小：</span>{{ appearance.font_size }}px</div>
       </div>
     </section>
 

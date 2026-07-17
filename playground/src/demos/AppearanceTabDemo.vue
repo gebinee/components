@@ -3,7 +3,6 @@ import { ref, watch } from "vue";
 import { AppearanceTab, GebineeInput, applyAppearance, type AppearanceSettings, type FontOption } from "@gebinee/components";
 
 const appearance = ref<AppearanceSettings>({
-  font_size: 16,
   word_font: "system-ui",
   phonetic_font: "system-ui",
   ui_font: "system-ui",
