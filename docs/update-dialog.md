@@ -37,7 +37,7 @@ const visible = ref(false);
 | 状态 | 说明 | 底部按钮 |
 |---|---|---|
 | `checking` | 正在检查更新 | "请稍候"（disabled + loading） |
-| `available` | 发现新版本 | "稀后再说" + "立即更新" |
+| `available` | 发现新版本 | "稍后再说" + "立即更新" |
 | `noUpdate` | 已是最新版本 | "关闭" |
 | `downloading` | 正在下载更新 | "请稍候"（disabled + loading） |
 | `installing` | 安装完成，正在重启 | "请稍候"（disabled + loading） |

@@ -282,7 +282,7 @@ function onCancel(): void {
 
     <!-- 内置检查更新对话框 -->
     <UpdateDialog
-      v-if="showUpdateButton"
+      v-if="showAboutTab && showUpdateButton"
       v-model:visible="updateDialogVisible"
     />
   </el-dialog>

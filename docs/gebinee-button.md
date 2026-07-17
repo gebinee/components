@@ -33,7 +33,7 @@ import { Download } from "@element-plus/icons-vue";
 
 ## Props
 
-GebineeButton 通过 `defineProps(buttonProps)` 声明 ElButton 的全部 Props，消费项目使用时可获得完整的 IDE 类型提示（如 `type`、`plain`、`size` 等属性的自动补全和类型检查）。不额外定义自有 Props。
+GebineeButton 通过 `defineProps<ButtonProps>()` 声明 ElButton 的全部 Props（使用 Element Plus 推荐的 `ButtonProps` 接口类型，弃用的 `buttonProps` 运行时对象将在 3.0.0 移除），消费项目使用时可获得完整的 IDE 类型提示（如 `type`、`plain`、`size` 等属性的自动补全和类型检查）。不额外定义自有 Props。
 
 | 属性 | 类型 | 默认值 | 说明 |
 |---|---|---|---|

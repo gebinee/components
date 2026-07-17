@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Download, Loading, Search } from "@element-plus/icons-vue";
+import { Download } from "@element-plus/icons-vue";
 import { GebineeButton } from "@gebinee/components";
 </script>
 

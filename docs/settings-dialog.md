@@ -295,6 +295,7 @@ const tabs: SettingsTab[] = [
 ## 注意事项
 
 - 对话框使用 `destroy-on-close`，关闭时销毁内容（`script setup` 状态保留）
-- 内置 tab 的内容通过 `v-show` 切换（保持状态），关于 tab 用 `v-if`（无需保持状态）
+- 内置 tab（数据库/外观）的容器用 `v-if` 决定是否渲染、`v-show` 切换显隐（保持内部状态）
+- 关于 tab 用 `v-if`（仅激活时渲染，无需保持状态）
 - `appVersion` 仅在对话框首次打开时获取一次，之后缓存
-- 内置 `UpdateDialog` 在 `showUpdateButton` 为 `true` 时渲染
+- 内置 `UpdateDialog` 在 `showAboutTab` 且 `showUpdateButton` 均为 `true` 时渲染

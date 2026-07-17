@@ -39,10 +39,9 @@ function ensureMediaListener(): void {
  * 使用者通过 var(--gebinee-word-font) 等引用，不会与项目自身的 --word-font 冲突。
  * 单词字体与注音字体默认值均为 gebinee 内置字体。
  *
- * 注意：不再覆盖 --el-font-size-* 系列全局字号变量。
  * 字号仅通过 --gebinee-font-size 作用于 .gebinee 作用域，
- * 避免影响消费项目其他组件的字号。
- * UI 字体仍通过 --el-font-family 全局生效（UI 字体本就应全局统一）。
+ * 不影响消费项目其他组件的字号。
+ * UI 字体通过 --el-font-family 全局生效（UI 字体本就应全局统一）。
  */
 export function applyAppearance(settings: AppearanceSettings): void {
   const root = document.documentElement;
