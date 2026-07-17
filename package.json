@@ -30,13 +30,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles": "./src/styles/index.css",
-    "./dist/style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css"
   },
-  "files": [
-    "dist",
-    "src/styles"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",

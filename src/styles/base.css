@@ -13,17 +13,29 @@ body,
   padding: 0;
 }
 
+/* ========= :root 默认变量声明 =========
+ * 在 :root 预声明默认值，保证即使消费者未调用 applyAppearance()，
+ * var(--gebinee-xxx) 也能解析到合理值。
+ * applyAppearance() 通过 root.style.setProperty 设置内联样式，
+ * 优先级高于此处的 :root 规则，调用后会自动覆盖默认值。
+ * 单词字体与注音字体默认值为 gebinee 内置字体。
+ */
+:root {
+  --gebinee-font-size: 14px;
+  --gebinee-word-font: gebinee;
+  --gebinee-phonetic-font: gebinee;
+  --gebinee-ui-font: system-ui;
+}
+
 /* ========= .gebinee 作用域样式 ========= */
-/* 使用者在需要应用本套样式的根元素上加 class="gebinee" 即可 */
-
 .gebinee {
-  --font-size: 14px;
-  --word-font: system-ui, serif; /* aae */
-  --phonetic-font: system-ui, serif; /* aae */
-  --ui-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-
-  font-family: var(--ui-font);
-  font-size: var(--font-size);
+  /*
+   * 字体变量由 applyAppearance() 设置到 :root，统一加 --gebinee 前缀。
+   * 使用者通过 var(--gebinee-word-font) 等引用这些字体，自行控制应用范围。
+   * 末尾 sans-serif 作为通用字体族兜底。
+   */
+  font-family: var(--gebinee-ui-font), sans-serif;
+  font-size: var(--gebinee-font-size);
   color-scheme: light dark;
 }
 
@@ -38,22 +50,4 @@ body,
 }
 .gebinee ::-webkit-scrollbar-thumb:hover {
   background: var(--el-color-primary-light-5, #909399);
-}
-
-/* 字体族辅助类 */
-.gebinee .font-word {
-  font-family: var(--word-font);
-}
-.gebinee .font-phonetic {
-  font-family: var(--phonetic-font);
-}
-.gebinee .font-word .el-input__inner,
-.gebinee .font-word.el-input .el-input__inner,
-.gebinee .font-word .el-textarea__inner {
-  font-family: var(--word-font);
-}
-.gebinee .font-phonetic .el-input__inner,
-.gebinee .font-phonetic.el-input .el-input__inner,
-.gebinee .font-phonetic .el-textarea__inner {
-  font-family: var(--phonetic-font);
 }

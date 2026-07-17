@@ -32,22 +32,32 @@ function ensureMediaListener(): void {
   });
 }
 
-/** 应用外观设置到 CSS 变量与主题 */
+/**
+ * 应用外观设置到 CSS 变量与主题
+ *
+ * 字体变量统一加 --gebinee 前缀，声明到 :root。
+ * 使用者通过 var(--gebinee-word-font) 等引用，不会与项目自身的 --word-font 冲突。
+ * 单词字体与注音字体默认值均为 gebinee 内置字体。
+ *
+ * 注意：不再覆盖 --el-font-size-* 系列全局字号变量。
+ * 字号仅通过 --gebinee-font-size 作用于 .gebinee 作用域，
+ * 避免影响消费项目其他组件的字号。
+ * UI 字体仍通过 --el-font-family 全局生效（UI 字体本就应全局统一）。
+ */
 export function applyAppearance(settings: AppearanceSettings): void {
   const root = document.documentElement;
 
-  // 字体大小
+  // 字体大小（仅作用于 .gebinee 作用域）
   const fontSize = settings.font_size || 14;
-  const sizePx = `${fontSize}px`;
-  root.style.setProperty("--font-size", sizePx);
-  root.style.setProperty("--el-font-size-base", sizePx);
-  root.style.setProperty("--el-font-size-small", `${Math.max(12, fontSize - 2)}px`);
-  root.style.setProperty("--el-font-size-large", `${fontSize + 2}px`);
+  root.style.setProperty("--gebinee-font-size", `${fontSize}px`);
 
-  // 字体族
-  root.style.setProperty("--word-font", settings.word_font || "system-ui");
-  root.style.setProperty("--phonetic-font", settings.phonetic_font || "system-ui");
-  root.style.setProperty("--ui-font", settings.ui_font || "system-ui");
+  // 字体族（加 --gebinee 前缀，避免与消费项目的 --word-font 等冲突）
+  // 单词字体与注音字体默认值为 gebinee 内置字体
+  root.style.setProperty("--gebinee-word-font", settings.word_font || "gebinee");
+  root.style.setProperty("--gebinee-phonetic-font", settings.phonetic_font || "gebinee");
+  root.style.setProperty("--gebinee-ui-font", settings.ui_font || "system-ui");
+
+  // UI 字体同时驱动 Element Plus 全局字体（UI 字体本就应全局生效）
   root.style.setProperty("--el-font-family", settings.ui_font || "system-ui");
 
   // 主题
