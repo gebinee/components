@@ -41,7 +41,6 @@ function ensureMediaListener(): void {
  *
  * 字号仅通过 --gebinee-font-size 作用于 .gebinee 作用域，
  * 不影响消费项目其他组件的字号。
- * UI 字体通过 --el-font-family 全局生效（UI 字体本就应全局统一）。
  */
 export function applyAppearance(settings: AppearanceSettings): void {
   const root = document.documentElement;

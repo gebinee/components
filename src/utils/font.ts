@@ -10,7 +10,7 @@ function injectFontFace(name: string, url: string, format = "truetype"): void {
   if (document.getElementById(id)) return;
   const style = document.createElement("style");
   style.id = id;
-  style.textContent = `@font-face { font-family: '${name}'; src: url('${url}') format('${format}'); }`;
+  style.textContent = `@font-face { font-family: '${name}'; src: url('${url}') format('${format}'); font-display: swap; }`;
   document.head.appendChild(style);
 }
 

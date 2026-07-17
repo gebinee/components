@@ -38,7 +38,7 @@ GebineeInput 透传 ElInput 的所有 Props，不额外定义自有 Props。
 
 | 属性 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `modelValue` | `string \| number` | `""` | v-model 绑定值 |
+| `modelValue` | `string \| number \| null \| undefined` | `""` | v-model 绑定值 |
 | `type` | `"text" \| "textarea" \| ...` | `"text"` | 输入框类型 |
 | `placeholder` | `string` | — | 占位符 |
 | `disabled` | `boolean` | `false` | 是否禁用 |
