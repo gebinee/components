@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { AppearanceTab, applyAppearance, type AppearanceSettings, type FontOption } from "@gebinee/components";
+import { AppearanceTab, GebineeInput, applyAppearance, type AppearanceSettings, type FontOption } from "@gebinee/components";
 
 const appearance = ref<AppearanceSettings>({
   font_size: 16,
@@ -18,6 +18,9 @@ const fontOptions: FontOption[] = [
 function onPickFont() {
   console.log("[demo] 触发 pick-font-file");
 }
+
+// 单词输入框：预填一个示例单词，方便观察字体；可清空看 placeholder
+const wordInput = ref("hello");
 
 // 配置变化时立即应用到页面，让字体/主题效果可见
 watch(appearance, (v) => {
@@ -41,23 +44,61 @@ watch(appearance, (v) => {
 
     <section class="demo-section">
       <h3>效果预览</h3>
-      <div class="preview-area" style="--font-size: 16px;">
+      <div class="preview-area">
         <div class="preview-row">
-          <span class="label">UI 字体：</span>
-          <span :style="{ fontFamily: appearance.ui_font || 'system-ui' }">
-            The quick brown fox jumps over the lazy dog. 1234567890
+          <span class="label">UI 字体（element-plus 组件）</span>
+          <div class="component-group">
+            <el-input
+              :model-value="`输入框中的文字 ABC 123`"
+              readonly
+              style="width: 100%; margin-bottom: 8px;"
+            />
+            <el-input
+              type="textarea"
+              :rows="2"
+              :model-value="`文本域中的文字 ABC 123`"
+              readonly
+              style="width: 100%; margin-bottom: 8px;"
+            />
+            <div class="button-row">
+              <el-button type="primary">按钮 Primary</el-button>
+              <el-button>按钮 Default</el-button>
+              <el-button type="success">成功</el-button>
+              <el-button type="warning">警告</el-button>
+              <el-button type="danger">危险</el-button>
+            </div>
+            <el-select
+              :model-value="'option1'"
+              style="width: 100%; margin-top: 8px;"
+            >
+              <el-option label="选项一 ABC" value="option1" />
+              <el-option label="选项二 DEF" value="option2" />
+            </el-select>
+          </div>
+        </div>
+        <div class="preview-row">
+          <span class="label">单词字体</span>
+          <span class="word-sample" :style="{ fontFamily: appearance.word_font || 'system-ui' }">
+            hello / world / vocabulary / 1234567890
+          </span>
+          <GebineeInput
+            v-model="wordInput"
+            class="word-input"
+            placeholder="请输入单词（placeholder 跟随系统字体）"
+            clearable
+            style="margin-top: 8px;"
+          />
+        </div>
+        <div class="preview-row">
+          <span class="label">注音字体</span>
+          <span class="word-sample" :style="{ fontFamily: appearance.phonetic_font || 'system-ui' }">
+            /həˈloʊ/ /wɜːrld/ /ˈvæbjəlɛri/
           </span>
         </div>
         <div class="preview-row">
-          <span class="label">单词字体：</span>
-          <span :style="{ fontFamily: appearance.word_font || 'system-ui' }">
-            hello / world / vocabulary
-          </span>
-        </div>
-        <div class="preview-row">
-          <span class="label">注音字体：</span>
-          <span :style="{ fontFamily: appearance.phonetic_font || 'system-ui' }">
-            /həˈloʊ/ /wɜːrld/
+          <span class="label">UI 字体（纯文本）</span>
+          <span class="word-sample" :style="{ fontFamily: appearance.ui_font || 'system-ui' }">
+            The quick brown fox jumps over the lazy dog. ABCDEFG 1234567890
           </span>
         </div>
       </div>
@@ -92,6 +133,14 @@ watch(appearance, (v) => {
   flex-direction: column;
   gap: 14px;
   font-size: var(--font-size, 16px);
+  /* 演示消费项目如何引用 --gebinee-ui-font 驱动 Element Plus 全局字体 */
+  --el-font-family: var(--gebinee-ui-font);
+}
+/* element-plus 组件内部用 font-family: inherit，需要直接穿透设置 */
+.preview-area :deep(.el-input__inner),
+.preview-area :deep(.el-textarea__inner),
+.preview-area :deep(.el-button) {
+  font-family: var(--gebinee-ui-font);
 }
 .preview-row {
   display: flex;
@@ -101,6 +150,29 @@ watch(appearance, (v) => {
 .preview-row .label {
   font-size: 12px;
   color: var(--el-text-color-secondary);
+}
+.component-group {
+  display: flex;
+  flex-direction: column;
+}
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.word-sample {
+  font-size: var(--gebinee-font-size, 16px);
+  line-height: 1.6;
+  padding: 4px 0;
+}
+/* 单词输入框：输入文字用单词字体，placeholder 保持系统字体。
+   GebineeInput 根元素带 .gebinee-input 类，外部 class 会合并到同一根元素上，
+   这里用 .word-input :deep() 穿透到 el-input__inner。 */
+.word-input :deep(.el-input__inner) {
+  font-family: var(--gebinee-word-font);
+}
+.word-input :deep(.el-input__inner::placeholder) {
+  font-family: system-ui;
 }
 .config {
   font-size: 13px;

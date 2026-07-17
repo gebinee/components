@@ -65,8 +65,7 @@ applyAppearance(settings);
 | `--gebinee-font-size` | `font_size` | `14px` | `.gebinee` 作用域 |
 | `--gebinee-word-font` | `word_font` | `gebinee` | 由消费项目引用 |
 | `--gebinee-phonetic-font` | `phonetic_font` | `gebinee` | 由消费项目引用 |
-| `--gebinee-ui-font` | `ui_font` | `system-ui` | `.gebinee` 作用域 |
-| `--el-font-family` | `ui_font` | `system-ui` | 全局（Element Plus） |
+| `--gebinee-ui-font` | `ui_font` | `system-ui` | 由消费项目引用 |
 
 ### 主题应用
 
@@ -81,7 +80,7 @@ applyAppearance(settings);
 ### 注意事项
 
 - 字体变量加 `--gebinee` 前缀，避免与消费项目的 `--word-font` 等变量冲突
-- `--el-font-family` 是全局覆盖（UI 字体本应全局生效）
+- `--gebinee-ui-font` 仅设置变量值，由消费项目自行引用（如 `--el-font-family: var(--gebinee-ui-font)`）
 - `--gebinee-font-size` 仅作用于 `.gebinee` 作用域，不影响 Element Plus 其他组件的字号
 - 即使不调用 `applyAppearance()`，`:root` 也有默认变量声明（见 `base.css`），`var(--gebinee-xxx)` 可正常解析
 

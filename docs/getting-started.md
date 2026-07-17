@@ -131,7 +131,6 @@ applyAppearance(settings);
 | `--gebinee-word-font` | `word_font` | `gebinee` |
 | `--gebinee-phonetic-font` | `phonetic_font` | `gebinee` |
 | `--gebinee-ui-font` | `ui_font` | `system-ui` |
-| `--el-font-family` | `ui_font` | `system-ui` |
 
 在消费项目模板中通过 `var(--gebinee-word-font)` 等引用字体：
 
@@ -142,6 +141,14 @@ applyAppearance(settings);
     <span class="phonetic" :style="{ fontFamily: 'var(--gebinee-phonetic-font)' }">/həˈloʊ/</span>
   </div>
 </template>
+```
+
+如需驱动 Element Plus 全局字体，在消费项目样式中设置：
+
+```css
+:root {
+  --el-font-family: var(--gebinee-ui-font);
+}
 ```
 
 ### 3. 注册自定义字体

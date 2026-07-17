@@ -66,7 +66,7 @@ const current = shallowRef<DemoEntry>(demos[0]);
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body, #app { height: 100%; }
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--gebinee-ui-font, system-ui), -apple-system, "Segoe UI", Roboto, sans-serif;
   color: var(--el-text-color-primary);
   background: var(--el-bg-color-page);
 }
