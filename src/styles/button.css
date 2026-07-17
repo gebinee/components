@@ -1,5 +1,5 @@
 /* GitHub 风格绿色实心按钮 */
-.gebinee-button.btn-green {
+.el-button.gebinee--btn-green {
   --el-button-text-color: #ffffff;
   --el-button-bg-color: #2da44e;
   --el-button-border-color: rgba(27, 31, 36, 0.15);
@@ -18,8 +18,8 @@
 }
 
 /* 浅色按钮 hover 时变为 GitHub 绿色实心 */
-.gebinee-button.btn-success-hover:hover,
-.gebinee-button.btn-success-hover:focus {
+.el-button.gebinee--btn-success-hover:hover,
+.el-button.gebinee--btn-success-hover:focus {
   --el-button-hover-bg-color: #2da44e;
   --el-button-hover-border-color: rgba(27, 31, 36, 0.15);
   --el-button-hover-text-color: #ffffff;

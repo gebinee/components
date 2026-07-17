@@ -4,14 +4,14 @@
 
 ---
 
-## BUG-1：`button.css` 无效 CSS 变量与遗留调试注释
+## BUG-1：按钮样式无效 CSS 变量与遗留调试注释
 
 **严重程度**：低  
 **状态**：已修复
 
 ### 问题
 
-`src/styles/button.css` 中存在 3 个无效或不确定的 CSS 变量和调试注释：
+按钮样式（原 `src/styles/button.css`，已迁入 `GebineeButton.vue` 的 `<style scoped>`）中存在 3 个无效或不确定的 CSS 变量和调试注释：
 
 ```css
 --el-button-outline-color: #b3e19d; /* 干嘛的这个 */
@@ -25,7 +25,7 @@
 
 ### 修复
 
-删除以上 3 行无效 CSS 变量及调试注释。
+删除以上 3 行无效 CSS 变量及调试注释，并将按钮样式从 `src/styles/button.css` 迁入 [GebineeButton.vue](file:///d:/workspace/gebinee/components/src/components/GebineeButton.vue) 的 `<style scoped>` 内，提升内聚性。`src/styles/button.css` 文件已删除，`index.css` 中对应导入已移除。
 
 ---
 

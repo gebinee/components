@@ -75,7 +75,7 @@ const database = ref<DatabaseConfig>({ db_path: "" });
 
 | 组件 | 说明 | 文档 |
 |---|---|---|
-| `GebineeButton` | ElButton 封装，固定高度 38px，配合 `.btn-green` 实现 GitHub 绿色按钮 | [文档](docs/gebinee-button.md) |
+| `GebineeButton` | ElButton 封装，固定高度 38px，配合 `.gebinee--btn-green` 实现 GitHub 绿色按钮 | [文档](docs/gebinee-button.md) |
 | `GebineeInput` | ElInput 封装，字号 18px / placeholder 16px，透传全部插槽 | [文档](docs/gebinee-input.md) |
 | `AppearanceTab` | 外观设置表单：主题模式、字体选择、上传字体 | [文档](docs/appearance-tab.md) |
 | `DatabaseTab` | 数据库路径设置表单 | [文档](docs/database-tab.md) |
@@ -105,7 +105,7 @@ const database = ref<DatabaseConfig>({ db_path: "" });
 
 - `:root` CSS 变量声明（`--gebinee-font-size`、`--gebinee-word-font` 等）
 - `.gebinee` 作用域样式（字体、滚动条）
-- `.btn-green` / `.btn-success-hover` 按钮颜色类
+- `.gebinee--btn-green` / `.gebinee--btn-success-hover` 按钮颜色类
 - `.app-layout` / `.app-header` / `.app-main` 布局类
 - Element Plus 组件样式（Button、Input、Dialog 等）
 

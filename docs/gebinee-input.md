@@ -64,7 +64,7 @@ GebineeInput 透传 ElInput 的所有具名插槽：
     <el-icon><Search /></el-icon>
   </template>
   <template #append>
-    <GebineeButton class="btn-green">搜索</GebineeButton>
+    <GebineeButton class="gebinee--btn-green">搜索</GebineeButton>
   </template>
 </GebineeInput>
 ```

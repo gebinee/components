@@ -13,7 +13,7 @@ const visible = ref(false);
 </script>
 
 <template>
-  <GebineeButton class="btn-green" @click="visible = true">检查更新</GebineeButton>
+  <GebineeButton class="gebinee--btn-green" @click="visible = true">检查更新</GebineeButton>
   <UpdateDialog v-model:visible="visible" :timeout="20000" />
 </template>
 ```

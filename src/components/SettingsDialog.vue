@@ -271,7 +271,7 @@ function onCancel(): void {
         <span>取消</span>
       </GebineeButton>
       <GebineeButton
-        class="btn-green"
+        class="gebinee--btn-green"
         :loading="saving"
         @click="onSave"
       >

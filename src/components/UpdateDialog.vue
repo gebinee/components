@@ -189,7 +189,7 @@ function onOpen(): void {
     <template #footer>
       <template v-if="status === 'available'">
         <GebineeButton @click="onClose">稍后再说</GebineeButton>
-        <GebineeButton class="btn-green" @click="onInstall">
+        <GebineeButton class="gebinee--btn-green" @click="onInstall">
           <el-icon><Download /></el-icon>
           <span>立即更新</span>
         </GebineeButton>

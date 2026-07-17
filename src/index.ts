@@ -1,4 +1,4 @@
-// 组件库自身全局样式（btn-green 颜色类、布局、主题变量等）
+// 组件库自身全局样式（gebinee--btn-green 颜色类、布局、主题变量等）
 import "./styles/index.css";
 
 // 用到的 element-plus 组件样式：打包进 dist/style.css，消费者无需再单独引入
