@@ -33,7 +33,7 @@ import { Download } from "@element-plus/icons-vue";
 
 ## Props
 
-GebineeButton 透传 ElButton 的所有 Props，不额外定义自有 Props。
+GebineeButton 通过 `defineProps(buttonProps)` 声明 ElButton 的全部 Props，消费项目使用时可获得完整的 IDE 类型提示（如 `type`、`plain`、`size` 等属性的自动补全和类型检查）。不额外定义自有 Props。
 
 | 属性 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
@@ -70,11 +70,17 @@ GebineeButton 透传 ElButton 的所有 Props，不额外定义自有 Props。
 
 ### `.btn-success-hover` — 浅色按钮 hover 变绿
 
-配合 `type="success" plain` 使用，hover 时变为 GitHub 绿色实心：
+当传入 `type="success"` 且 `plain` 时**自动应用**，无需手动添加 class。hover/focus 时变为 GitHub 绿色实心：
 
 ```vue
-<GebineeButton type="success" plain class="btn-success-hover">编辑</GebineeButton>
+<!-- 自动生效，hover 时变绿 -->
+<GebineeButton type="success" plain>编辑</GebineeButton>
 ```
+
+| 状态 | 背景色 | 文字色 | 边框色 |
+|---|---|---|---|
+| 默认 | Element Plus success plain 默认 | — | — |
+| hover / focus | `#2da44e` | `#ffffff` | `rgba(27, 31, 36, 0.15)` |
 
 ## 样式覆盖
 
