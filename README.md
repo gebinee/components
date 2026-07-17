@@ -125,5 +125,4 @@ npm run dev
 ```
 
 ## License
-
-[MIT](LICENSE)
+@gebinee/components 是一款采用 [MIT](LICENSE) 许可证的开源 vue3 组件库。
