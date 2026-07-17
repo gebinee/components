@@ -34,7 +34,7 @@ export default defineConfig({
       ],
       output: {
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name && assetInfo.name.endsWith(".css")) {
+          if (assetInfo.names?.[0]?.endsWith(".css")) {
             return "style.css";
           }
           return "assets/[name][extname]";
