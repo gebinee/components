@@ -64,7 +64,7 @@ const props = withDefaults(
     visible: false,
     appName: "",
     appIcon: null,
-    iconColor: "#2da44e",
+    iconColor: "var(--gebinee-primary-color)",
     appVersion: "",
     title: "软件设置",
     width: "640px",

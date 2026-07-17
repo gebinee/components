@@ -1,3 +1,10 @@
+/* ========= 内置 gebinee 字体 ========= */
+@font-face {
+  font-family: 'gebinee';
+  src: url('../assets/fonts/aaae.ttf') format('truetype');
+  font-display: swap;
+}
+
 /* ========= :root 默认变量声明 =========
  * 在 :root 预声明默认值，保证即使消费者未调用 applyAppearance()，
  * var(--gebinee-xxx) 也能解析到合理值。
@@ -10,6 +17,7 @@
   --gebinee-word-font: gebinee;
   --gebinee-phonetic-font: gebinee;
   --gebinee-ui-font: system-ui;
+  --gebinee-primary-color: var(--el-color-primary, #2da44e);
 }
 
 /* ========= .gebinee 作用域样式 ========= */

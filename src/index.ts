@@ -16,9 +16,6 @@ import "element-plus/es/components/select/style/css";
 import "element-plus/es/components/option/style/css";
 import "element-plus/es/components/progress/style/css";
 
-// 内置 gebinee 字体（模块加载时自动注入 @font-face）
-import "./utils/builtin-font";
-
 import SettingsDialog from "./components/SettingsDialog.vue";
 import UpdateDialog from "./components/UpdateDialog.vue";
 import AppearanceTab from "./components/AppearanceTab.vue";
