@@ -38,16 +38,9 @@ function ensureMediaListener(): void {
  * 字体变量统一加 --gebinee 前缀，声明到 :root。
  * 使用者通过 var(--gebinee-word-font) 等引用，不会与项目自身的 --word-font 冲突。
  * 单词字体与注音字体默认值均为 gebinee 内置字体。
- *
- * 字号仅通过 --gebinee-font-size 作用于 .gebinee 作用域，
- * 不影响消费项目其他组件的字号。
  */
 export function applyAppearance(settings: AppearanceSettings): void {
   const root = document.documentElement;
-
-  // 字体大小（仅作用于 .gebinee 作用域）
-  const fontSize = settings.font_size || 14;
-  root.style.setProperty("--gebinee-font-size", `${fontSize}px`);
 
   // 字体族（加 --gebinee 前缀，避免与消费项目的 --word-font 等冲突）
   // 单词字体与注音字体默认值为 gebinee 内置字体

@@ -5,7 +5,6 @@ export type ThemeMode = "light" | "dark" | "auto";
 
 /** 外观配置（v-model:appearance） */
 export interface AppearanceSettings {
-  font_size?: number;
   word_font?: string;
   phonetic_font?: string;
   ui_font?: string;
