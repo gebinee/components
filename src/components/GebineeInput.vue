@@ -12,7 +12,7 @@ const model = defineModel<InputProps["modelValue"]>();
 
 // 声明 el-input 的全部 props（排除 modelValue，由 defineModel 处理），
 // 使消费项目使用时获得 IDE 类型提示
-defineProps<Omit<InputProps, "modelValue">>();
+const props = defineProps<Omit<InputProps, "modelValue">>();
 const attrs = useAttrs();
 
 // 透传 ElInput 的所有具名插槽：用索引签名给出明确类型，避免动态插槽名的循环推断
@@ -32,7 +32,7 @@ const passthrough = computed(() => {
   <el-input
     class="gebinee-input"
     :class="attrs.class"
-    v-bind="passthrough"
+    v-bind="{ ...passthrough, ...props }"
     v-model="model"
   >
     <template v-for="name in Object.keys($slots)" #[name]="slotData">
