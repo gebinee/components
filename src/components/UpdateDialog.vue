@@ -37,10 +37,8 @@ const emit = defineEmits<{
 }>();
 
 // 配置 marked：启用 GFM（表格、删除线、任务列表等）
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-});
+// 仅在解析时传参，不调用 setOptions，避免污染消费项目的 marked 全局配置
+const markedOptions = { gfm: true, breaks: true } as const;
 
 function errMsg(e: unknown): string {
   const fn = props.errorMessageFn || defaultErrorMessage;
@@ -55,20 +53,25 @@ const status = ref<Status>("checking");
 const updateInfo = shallowRef<Update | null>(null);
 const errorMsg = ref("");
 const percent = ref(0);
+// 竞态保护：每次 onCheck 递增序号，异步回调比对序号后处理
+const checkSeq = ref(0);
 
 // 将更新说明 markdown 解析为 HTML
 const releaseNotesHtml = computed(() => {
   if (!updateInfo.value || !updateInfo.value.body) return "";
-  return marked.parse(updateInfo.value.body) as string;
+  return marked.parse(updateInfo.value.body, markedOptions) as string;
 });
 
 async function onCheck(): Promise<void> {
+  const seq = ++checkSeq.value;
   status.value = "checking";
   errorMsg.value = "";
   updateInfo.value = null;
   percent.value = 0;
   try {
     const update = await check({ timeout: props.timeout });
+    // 若期间又触发了新的检查，丢弃本次结果
+    if (seq !== checkSeq.value) return;
     if (update) {
       updateInfo.value = update;
       status.value = "available";
@@ -76,6 +79,7 @@ async function onCheck(): Promise<void> {
       status.value = "noUpdate";
     }
   } catch (e) {
+    if (seq !== checkSeq.value) return;
     errorMsg.value = errMsg(e);
     status.value = "error";
   }

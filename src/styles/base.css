@@ -1,18 +1,3 @@
-/* 基础样式 —— 由消费项目在 main.js 引入 */
-
-/* 全局基础 reset（非侵入性，任何项目都需要） */
-* {
-  box-sizing: border-box;
-}
-
-html,
-body,
-#app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 /* ========= :root 默认变量声明 =========
  * 在 :root 预声明默认值，保证即使消费者未调用 applyAppearance()，
  * var(--gebinee-xxx) 也能解析到合理值。

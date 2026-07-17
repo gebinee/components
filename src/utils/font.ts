@@ -21,7 +21,11 @@ export function registerFontLoader(fn: FontLoaderFn): void {
 
 /** 注册一个自定义字体 */
 export async function registerCustomFont(font: CustomFont): Promise<void> {
-  if (!font || injectedFonts.has(font.name) || !fontLoaderFn) return;
+  if (!font || injectedFonts.has(font.name)) return;
+  if (!fontLoaderFn) {
+    console.warn("[gebinee] 字体加载器未注册，请先调用 registerFontLoader() 注册");
+    return;
+  }
   const dataUrl = await fontLoaderFn(font.file_path);
   const ext = (font.file_path.split(".").pop() || "ttf").toLowerCase();
   const format =

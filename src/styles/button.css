@@ -4,14 +4,10 @@
   --el-button-bg-color: #2da44e;
   --el-button-border-color: rgba(27, 31, 36, 0.15);
 
-  --el-button-outline-color: #b3e19d; /* 干嘛的这个 */
-
   --el-button-hover-text-color: #ffffff;
   --el-button-hover-bg-color: #2c974b;
   --el-button-hover-border-color: rgba(27, 31, 36, 0.15);
-  --el-button-hover-link-text-color: #b3e19d; /* 干嘛的这个 */
 
-  --el-button-active-color: #298e46; /* 干嘛的这个 */
   --el-button-active-bg-color: #298e46;
   --el-button-active-border-color: rgba(27, 31, 36, 0.15);
   --el-button-active-text-color: #ffffff;

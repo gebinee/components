@@ -10,8 +10,13 @@ const props = withDefaults(
   defineProps<{
     modelValue: DatabaseConfig;
     placeholder?: string;
+    // 细粒度显隐控制（默认 true，保持向后兼容）
+    showPath?: boolean;
   }>(),
-  { placeholder: "数据库文件路径" },
+  {
+    placeholder: "数据库文件路径",
+    showPath: true,
+  },
 );
 
 const emit = defineEmits<{
@@ -27,7 +32,7 @@ const dbPath = computed({
 
 <template>
   <el-form label-position="top">
-    <el-form-item label="数据库文件路径">
+    <el-form-item v-if="showPath" label="数据库文件路径">
       <div class="db-row">
         <GebineeInput v-model="dbPath" :placeholder="placeholder" />
         <GebineeButton @click="emit('pick-database-file')">
@@ -36,6 +41,9 @@ const dbPath = computed({
         </GebineeButton>
       </div>
     </el-form-item>
+
+    <!-- 消费项目可在此追加自定义设置项 -->
+    <slot />
   </el-form>
 </template>
 

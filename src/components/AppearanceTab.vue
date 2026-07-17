@@ -9,8 +9,21 @@ const props = withDefaults(
   defineProps<{
     modelValue: AppearanceSettings;
     fontOptions?: FontOption[];
+    // 细粒度显隐控制（默认均为 true，保持向后兼容）
+    showTheme?: boolean;
+    showWordFont?: boolean;
+    showPhoneticFont?: boolean;
+    showUiFont?: boolean;
+    showFontUpload?: boolean;
   }>(),
-  { fontOptions: () => [] },
+  {
+    fontOptions: () => [],
+    showTheme: true,
+    showWordFont: true,
+    showPhoneticFont: true,
+    showUiFont: true,
+    showFontUpload: true,
+  },
 );
 
 const emit = defineEmits<{
@@ -52,57 +65,64 @@ const theme = computed({
 
 <template>
   <el-form label-position="top">
-    <el-divider content-position="left">主题</el-divider>
-    <el-form-item label="主题模式">
-      <el-radio-group v-model="theme">
-        <el-radio-button
-          v-for="o in themeOptions"
-          :key="o.value"
-          :value="o.value"
-        >
-          {{ o.label }}
-        </el-radio-button>
-      </el-radio-group>
-    </el-form-item>
+    <template v-if="showTheme">
+      <el-divider content-position="left">主题</el-divider>
+      <el-form-item label="主题模式">
+        <el-radio-group v-model="theme">
+          <el-radio-button
+            v-for="o in themeOptions"
+            :key="o.value"
+            :value="o.value"
+          >
+            {{ o.label }}
+          </el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+    </template>
 
-    <el-divider content-position="left">字体</el-divider>
-    <el-form-item label="单词字体">
-      <el-select v-model="wordFont" style="width: 100%">
-        <el-option
-          v-for="o in fontOptions"
-          :key="o.value"
-          :label="o.label"
-          :value="o.value"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="注音字体">
-      <el-select v-model="phoneticFont" style="width: 100%">
-        <el-option
-          v-for="o in fontOptions"
-          :key="o.value"
-          :label="o.label"
-          :value="o.value"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="UI 字体">
-      <el-select v-model="uiFont" style="width: 100%">
-        <el-option
-          v-for="o in fontOptions"
-          :key="o.value"
-          :label="o.label"
-          :value="o.value"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item>
-      <GebineeButton @click="emit('pick-font-file')">
-        <el-icon><Upload /></el-icon>
-        <span>上传字体文件</span>
-      </GebineeButton>
-      <span class="hint">支持 ttf/otf/woff/woff2</span>
-    </el-form-item>
+    <template v-if="showWordFont || showPhoneticFont || showUiFont || showFontUpload">
+      <el-divider content-position="left">字体</el-divider>
+      <el-form-item v-if="showWordFont" label="单词字体">
+        <el-select v-model="wordFont" style="width: 100%">
+          <el-option
+            v-for="o in fontOptions"
+            :key="o.value"
+            :label="o.label"
+            :value="o.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="showPhoneticFont" label="注音字体">
+        <el-select v-model="phoneticFont" style="width: 100%">
+          <el-option
+            v-for="o in fontOptions"
+            :key="o.value"
+            :label="o.label"
+            :value="o.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="showUiFont" label="UI 字体">
+        <el-select v-model="uiFont" style="width: 100%">
+          <el-option
+            v-for="o in fontOptions"
+            :key="o.value"
+            :label="o.label"
+            :value="o.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="showFontUpload">
+        <GebineeButton @click="emit('pick-font-file')">
+          <el-icon><Upload /></el-icon>
+          <span>上传字体文件</span>
+        </GebineeButton>
+        <span class="hint">支持 ttf/otf/woff/woff2</span>
+      </el-form-item>
+    </template>
+
+    <!-- 消费项目可在此追加自定义设置项 -->
+    <slot />
   </el-form>
 </template>
 

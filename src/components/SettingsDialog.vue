@@ -21,6 +21,8 @@ const props = withDefaults(
     appName?: string;
     // 应用图标组件（Element Plus icon 组件，如 EditPen）
     appIcon?: Component | null;
+    // 应用图标颜色，默认 GitHub 绿
+    iconColor?: string;
     // 应用版本号。不传则运行时通过 getVersion() 读取 tauri.conf.json
     appVersion?: string;
     // 对话框标题
@@ -47,11 +49,22 @@ const props = withDefaults(
     database?: DatabaseConfig;
     // 字体选项：[{ label, value }]
     fontOptions?: FontOption[];
+    // —— AppearanceTab 细粒度显隐透传 ——
+    showTheme?: boolean;
+    showWordFont?: boolean;
+    showPhoneticFont?: boolean;
+    showUiFont?: boolean;
+    showFontUpload?: boolean;
+    // —— DatabaseTab 细粒度显隐透传 ——
+    showPath?: boolean;
+    // 数据库路径输入框 placeholder
+    dbPlaceholder?: string;
   }>(),
   {
     visible: false,
     appName: "",
     appIcon: null,
+    iconColor: "#2da44e",
     appVersion: "",
     title: "软件设置",
     width: "640px",
@@ -65,6 +78,13 @@ const props = withDefaults(
     appearance: () => ({}),
     database: () => ({}),
     fontOptions: () => [],
+    showTheme: true,
+    showWordFont: true,
+    showPhoneticFont: true,
+    showUiFont: true,
+    showFontUpload: true,
+    showPath: true,
+    dbPlaceholder: "数据库文件路径",
   },
 );
 
@@ -179,8 +199,12 @@ function onCancel(): void {
         >
           <DatabaseTab
             v-model="databaseProxy"
+            :placeholder="dbPlaceholder"
+            :show-path="showPath"
             @pick-database-file="emit('pick-database-file')"
-          />
+          >
+            <slot name="database-extra" />
+          </DatabaseTab>
         </div>
 
         <!-- 内置"外观"tab -->
@@ -192,8 +216,15 @@ function onCancel(): void {
           <AppearanceTab
             v-model="appearanceProxy"
             :font-options="fontOptions"
+            :show-theme="showTheme"
+            :show-word-font="showWordFont"
+            :show-phonetic-font="showPhoneticFont"
+            :show-ui-font="showUiFont"
+            :show-font-upload="showFontUpload"
             @pick-font-file="emit('pick-font-file')"
-          />
+          >
+            <slot name="appearance-extra" />
+          </AppearanceTab>
         </div>
 
         <!-- 自定义 tab 内容：每个 tab 通过 #tab-{name} 插槽传入 -->
@@ -212,7 +243,7 @@ function onCancel(): void {
           class="tab-pane about-pane"
         >
           <div class="about-info">
-            <el-icon v-if="appIcon" :size="40" color="#409eff">
+            <el-icon v-if="appIcon" :size="40" :color="iconColor">
               <component :is="appIcon" />
             </el-icon>
             <div class="about-text">
