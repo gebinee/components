@@ -11,6 +11,8 @@ const props = withDefaults(
     modelValue: AppearanceSettings;
     fontOptions?: FontOption[];
     fontOptionsCn?: FontOption[];
+    /** 为 true 时 fontOptions 完全替换内置默认值，默认 false 即合并追加 */
+    replaceFontOptions?: boolean;
     // 细粒度显隐控制（默认均为 true，保持向后兼容）
     showTheme?: boolean;
     showWordFont?: boolean;
@@ -21,6 +23,7 @@ const props = withDefaults(
   {
     fontOptions: () => getDefaultFontOptions(),
     fontOptionsCn: () => getDefaultFontOptionsCn(),
+    replaceFontOptions: false,
     showTheme: true,
     showWordFont: true,
     showPhoneticFont: true,
@@ -69,7 +72,29 @@ const theme = computed({
   set: (v) => updateField("theme", v),
 });
 
-const showCnFonts = computed(() => props.fontOptionsCn.length > 0);
+const showCnFonts = computed(() => mergedFontOptionsCn.value.length > 0);
+
+// 合并内置默认字体与消费者传入的额外字体（去重，内置优先）
+// 若 replaceFontOptions 为 true 则完全替换
+const mergedFontOptions = computed(() => {
+  if (props.replaceFontOptions && props.fontOptions?.length) {
+    return props.fontOptions;
+  }
+  const builtins = getDefaultFontOptions();
+  const extras = props.fontOptions?.length ? props.fontOptions : [];
+  const seen = new Set(builtins.map((f) => f.value));
+  return [...builtins, ...extras.filter((f) => !seen.has(f.value))];
+});
+
+const mergedFontOptionsCn = computed(() => {
+  if (props.replaceFontOptions && props.fontOptionsCn?.length) {
+    return props.fontOptionsCn;
+  }
+  const builtins = getDefaultFontOptionsCn();
+  const extras = props.fontOptionsCn?.length ? props.fontOptionsCn : [];
+  const seen = new Set(builtins.map((f) => f.value));
+  return [...builtins, ...extras.filter((f) => !seen.has(f.value))];
+});
 </script>
 
 <template>
@@ -94,7 +119,7 @@ const showCnFonts = computed(() => props.fontOptionsCn.length > 0);
       <el-form-item v-if="showWordFont" label="单词字体">
         <el-select v-model="wordFont" style="width: 100%">
           <el-option
-            v-for="o in fontOptions"
+            v-for="o in mergedFontOptions"
             :key="o.value"
             :label="o.label"
             :value="o.value"
@@ -104,7 +129,7 @@ const showCnFonts = computed(() => props.fontOptionsCn.length > 0);
       <el-form-item v-if="showPhoneticFont" label="注音字体">
         <el-select v-model="phoneticFont" style="width: 100%">
           <el-option
-            v-for="o in fontOptions"
+            v-for="o in mergedFontOptions"
             :key="o.value"
             :label="o.label"
             :value="o.value"
@@ -117,7 +142,7 @@ const showCnFonts = computed(() => props.fontOptionsCn.length > 0);
             <span class="font-sub-label">西文</span>
             <el-select v-model="uiFont">
               <el-option
-                v-for="o in fontOptions"
+                v-for="o in mergedFontOptions"
                 :key="o.value"
                 :label="o.label"
                 :value="o.value"
@@ -128,7 +153,7 @@ const showCnFonts = computed(() => props.fontOptionsCn.length > 0);
             <span class="font-sub-label">中文</span>
             <el-select v-model="uiFontCn" clearable placeholder="跟随系统">
               <el-option
-                v-for="o in fontOptionsCn"
+                v-for="o in mergedFontOptionsCn"
                 :key="o.value"
                 :label="o.label"
                 :value="o.value"

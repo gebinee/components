@@ -51,6 +51,8 @@ const props = withDefaults(
     fontOptions?: FontOption[];
     // 中文字体选项：[{ label, value }]
     fontOptionsCn?: FontOption[];
+    /** 为 true 时 fontOptions 完全替换内置默认值 */
+    replaceFontOptions?: boolean;
     // —— AppearanceTab 细粒度显隐透传 ——
     showTheme?: boolean;
     showWordFont?: boolean;
@@ -218,6 +220,7 @@ function onCancel(): void {
             v-model="appearanceProxy"
             :font-options="fontOptions"
             :font-options-cn="fontOptionsCn"
+            :replace-font-options="replaceFontOptions"
             :show-theme="showTheme"
             :show-word-font="showWordFont"
             :show-phonetic-font="showPhoneticFont"
