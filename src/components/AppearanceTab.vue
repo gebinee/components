@@ -3,6 +3,7 @@ import { Upload } from "@element-plus/icons-vue";
 import { ElForm, ElFormItem, ElDivider, ElRadioGroup, ElRadioButton, ElSelect, ElOption, ElIcon } from "element-plus";
 import { computed } from "vue";
 import GebineeButton from "./GebineeButton.vue";
+import { getDefaultFontOptions, getDefaultFontOptionsCn } from "../utils/theme";
 import type { AppearanceSettings, FontOption, ThemeMode } from "../types";
 
 const props = withDefaults(
@@ -18,18 +19,8 @@ const props = withDefaults(
     showFontUpload?: boolean;
   }>(),
   {
-    fontOptions: () => [
-      { label: "系统默认", value: "system-ui" },
-      { label: "Gebinee", value: "gebinee" },
-      { label: "Arial", value: "Arial" },
-      { label: "Georgia", value: "Georgia" },
-      { label: "Verdana", value: "Verdana" },
-      { label: "Trebuchet MS", value: "Trebuchet MS" },
-      { label: "Courier New", value: "Courier New" },
-    ],
-    fontOptionsCn: () => [
-      { label: "系统默认", value: "" },
-    ],
+    fontOptions: () => getDefaultFontOptions(),
+    fontOptionsCn: () => getDefaultFontOptionsCn(),
     showTheme: true,
     showWordFont: true,
     showPhoneticFont: true,

@@ -23,7 +23,7 @@ import DatabaseTab from "./components/DatabaseTab.vue";
 import GebineeButton from "./components/GebineeButton.vue";
 import GebineeInput from "./components/GebineeInput.vue";
 import { errorMessage } from "./utils/error";
-import { applyAppearance, isSystemFontName } from "./utils/theme";
+import { applyAppearance, isSystemFontName, getDefaultFontOptions, getDefaultFontOptionsCn, detectOS } from "./utils/theme";
 import { registerFontLoader, registerCustomFont, registerCustomFonts } from "./utils/font";
 
 export {
@@ -36,6 +36,9 @@ export {
   errorMessage,
   applyAppearance,
   isSystemFontName,
+  getDefaultFontOptions,
+  getDefaultFontOptionsCn,
+  detectOS,
   registerFontLoader,
   registerCustomFont,
   registerCustomFonts,
@@ -52,6 +55,8 @@ export type {
   ThemeMode,
 } from "./types";
 
+export type { OSType } from "./utils/theme";
+
 export default {
   SettingsDialog,
   UpdateDialog,
@@ -62,6 +67,9 @@ export default {
   errorMessage,
   applyAppearance,
   isSystemFontName,
+  getDefaultFontOptions,
+  getDefaultFontOptionsCn,
+  detectOS,
   registerFontLoader,
   registerCustomFont,
   registerCustomFonts,

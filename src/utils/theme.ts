@@ -1,5 +1,80 @@
 // 主题模式应用工具
-import type { AppearanceSettings, ThemeMode } from "../types";
+import type { AppearanceSettings, FontOption, ThemeMode } from "../types";
+
+/** 检测当前操作系统 */
+export type OSType = "windows" | "macos" | "linux";
+
+export function detectOS(): OSType {
+  if (typeof navigator === "undefined") return "windows";
+  const p = (navigator.platform || "").toLowerCase();
+  if (p.includes("win")) return "windows";
+  if (p.includes("mac")) return "macos";
+  return "linux";
+}
+
+/** 各平台共用的西文字体 */
+const COMMON_FONTS: FontOption[] = [
+  { label: "系统默认", value: "system-ui" },
+  { label: "Gebinee 字体", value: "gebinee" },
+  { label: "Arial", value: "Arial" },
+  { label: "Georgia", value: "Georgia" },
+  { label: "Verdana", value: "Verdana" },
+  { label: "Trebuchet MS", value: "Trebuchet MS" },
+  { label: "Courier New", value: "Courier New" },
+];
+
+/** 平台专属西文字体 */
+const PLATFORM_FONTS: Record<OSType, FontOption[]> = {
+  windows: [
+    { label: "Consolas", value: "Consolas" },
+    { label: "Times New Roman", value: "Times New Roman" },
+    { label: "Segoe UI", value: "Segoe UI" },
+  ],
+  macos: [
+    { label: "Helvetica", value: "Helvetica" },
+    { label: "Monaco", value: "Monaco" },
+    { label: "Menlo", value: "Menlo" },
+  ],
+  linux: [
+    { label: "DejaVu Sans", value: "DejaVu Sans" },
+    { label: "DejaVu Sans Mono", value: "DejaVu Sans Mono" },
+    { label: "Liberation Sans", value: "Liberation Sans" },
+    { label: "Liberation Serif", value: "Liberation Serif" },
+  ],
+};
+
+/** 平台专属中文字体 */
+const PLATFORM_CN_FONTS: Record<OSType, FontOption[]> = {
+  windows: [
+    { label: "微软雅黑", value: "微软雅黑" },
+    { label: "宋体", value: "宋体" },
+    { label: "楷体", value: "楷体" },
+    { label: "仿宋", value: "仿宋" },
+    { label: "黑体", value: "黑体" },
+  ],
+  macos: [
+    { label: "PingFang SC", value: "PingFang SC" },
+    { label: "Heiti SC", value: "Heiti SC" },
+    { label: "STKaiti", value: "STKaiti" },
+    { label: "STSong", value: "STSong" },
+  ],
+  linux: [
+    { label: "Noto Sans CJK SC", value: "Noto Sans CJK SC" },
+    { label: "Noto Serif CJK SC", value: "Noto Serif CJK SC" },
+  ],
+};
+
+/** 获取当前平台的默认西文字体选项 */
+export function getDefaultFontOptions(): FontOption[] {
+  const os = detectOS();
+  return [...COMMON_FONTS, ...PLATFORM_FONTS[os]];
+}
+
+/** 获取当前平台的默认中文字体选项（"系统默认" 始终在第一项） */
+export function getDefaultFontOptionsCn(): FontOption[] {
+  const os = detectOS();
+  return [{ label: "系统默认", value: "" }, ...PLATFORM_CN_FONTS[os]];
+}
 
 let mediaListenerBound = false;
 let currentTheme: ThemeMode = "auto";
@@ -76,8 +151,18 @@ function buildFontFamily(western: string, cn?: string): string {
 export function isSystemFontName(name: string | null | undefined): boolean {
   if (!name) return true;
   const builtins = new Set([
+    // 跨平台
     "system-ui", "gebinee",
     "arial", "georgia", "verdana", "trebuchet ms", "courier new",
+    // Windows
+    "consolas", "times new roman", "segoe ui",
+    "微软雅黑", "宋体", "楷体", "仿宋", "黑体",
+    // macOS
+    "helvetica", "monaco", "menlo",
+    "pingfang sc", "heiti sc", "stkaiti", "stsong",
+    // Linux
+    "dejavu sans", "dejavu sans mono", "liberation sans", "liberation serif",
+    "noto sans cjk sc", "noto serif cjk sc",
   ]);
   return builtins.has(name.toLowerCase());
 }
