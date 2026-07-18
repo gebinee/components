@@ -1,9 +1,9 @@
-.gebinee .app-layout {
+.gebinee--app-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
-.gebinee .app-header {
+.gebinee--app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,14 +13,14 @@
   height: 56px;
   flex-shrink: 0;
 }
-.gebinee .app-header .title {
+.gebinee--app-header .title {
   font-size: 18px;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.gebinee .app-main {
+.gebinee--app-main {
   flex: 1;
   overflow: auto;
   padding: 16px 20px;
