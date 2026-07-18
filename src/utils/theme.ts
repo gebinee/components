@@ -140,11 +140,17 @@ function getGenericFamily(westernFont: string): string {
   return "sans-serif";
 }
 
-/** 构建 CSS font-family 值：中文字体在前，西文字体在后 */
+/** 构建 CSS font-family 值：西文在前，中文在后。
+ *  system-ui 通过字体链接包含 CJK 字形，会阻止中文字体回退，
+ *  此时替换为不含 CJK 的无衬线栈确保中文字体生效。 */
 function buildFontFamily(western: string, cn?: string): string {
   if (!cn) return western;
-  const generic = getGenericFamily(western);
-  return `"${cn}", "${western}", ${generic}`;
+  let effective = western;
+  if (western === "system-ui") {
+    effective = "Arial, Helvetica, sans-serif";
+  }
+  const generic = getGenericFamily(effective);
+  return `"${effective}", "${cn}", ${generic}`;
 }
 
 /** 判断字体名是否为系统/内置字体 */
