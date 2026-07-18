@@ -20,7 +20,7 @@ const props = withDefaults(
   {
     fontOptions: () => [
       { label: "系统默认", value: "system-ui" },
-      { label: "Gebinee 字体", value: "gebinee" },
+      { label: "Gebinee", value: "gebinee" },
       { label: "Arial", value: "Arial" },
       { label: "Georgia", value: "Georgia" },
       { label: "Verdana", value: "Verdana" },
