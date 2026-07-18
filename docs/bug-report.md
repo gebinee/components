@@ -178,23 +178,15 @@ if (!fontLoaderFn) {
 ## BUG-7：`AppearanceSettings.font_size` 在 AppearanceTab 中无对应 UI
 
 **严重程度**：低（功能缺口）  
-**状态**：已记录，未修复
+**状态**：已过时（`AppearanceSettings` 类型已移除 `font_size` 字段）
 
 ### 问题
 
-`AppearanceSettings` 类型包含 `font_size` 字段，`applyAppearance()` 会应用它，但 `AppearanceTab` 没有任何 UI 控件来设置它。消费项目需通过其他方式设置字号。
+~~`AppearanceSettings` 类型包含 `font_size` 字段，`applyAppearance()` 会应用它，但 `AppearanceTab` 没有任何 UI 控件来设置它。消费项目需通过其他方式设置字号。~~
 
 ### 处理
 
-本次不新增 UI（避免超出需求范围）。在文档中说明此字段需由消费项目通过其他方式设置。消费项目可通过 `AppearanceTab` 的默认插槽添加字号选择器：
-
-```vue
-<AppearanceTab v-model="appearance" :font-options="fontOptions">
-  <el-form-item label="字号">
-    <el-input-number v-model="appearance.font_size" :min="12" :max="32" />
-  </el-form-item>
-</AppearanceTab>
-```
+`AppearanceSettings` 类型已移除 `font_size` 字段。`applyAppearance()` 也不再设置 `--gebinee-font-size` 变量。消费项目如需控制字号，可直接在 CSS 中通过 `--gebinee-font-size` 变量设置（该变量在 `base.css` 的 `:root` 中预声明为 `14px`）。
 
 ---
 

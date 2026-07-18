@@ -106,7 +106,7 @@ const database = ref<DatabaseConfig>({ db_path: "" });
 - `:root` CSS 变量声明（`--gebinee-font-size`、`--gebinee-word-font` 等）
 - `.gebinee` 作用域样式（字体、滚动条）
 - `.gebinee--btn-green` / `.gebinee--btn-success-hover` 按钮颜色类
-- `.app-layout` / `.app-header` / `.app-main` 布局类
+- `.gebinee--app-layout` / `.gebinee--app-header` / `.gebinee--app-main` 布局类
 - Element Plus 组件样式（Button、Input、Dialog 等）
 
 > **注意**：组件库不包含全局 reset（`* { box-sizing }` / `html, body { height: 100% }`）。若消费项目需要全高度布局，请自行添加。

@@ -35,7 +35,7 @@ import "@gebinee/components/style.css";
 
 ## 全高度布局
 
-组件库**不包含**全局 reset。若消费项目需要全高度布局（如使用 `.app-layout`），请自行添加：
+组件库**不包含**全局 reset。若消费项目需要全高度布局（如使用 `.gebinee--app-layout`），请自行添加：
 
 ```css
 html, body, #app {
@@ -66,17 +66,17 @@ const visible = ref(false);
 const saving = ref(false);
 
 const appearance = ref<AppearanceSettings>({
-  font_size: 16,
   word_font: "system-ui",
   phonetic_font: "system-ui",
   ui_font: "system-ui",
+  ui_font_cn: "",
   theme: "auto",
 });
 
 const database = ref<DatabaseConfig>({ db_path: "" });
 
 const fontOptions: FontOption[] = [
-  { label: "系统默认", value: "system-ui" },
+  { label: "跟随系统", value: "system-ui" },
   { label: "微软雅黑", value: "Microsoft YaHei" },
 ];
 
@@ -113,10 +113,10 @@ function onSave() {
 import { applyAppearance, type AppearanceSettings } from "@gebinee/components";
 
 const settings: AppearanceSettings = {
-  font_size: 16,
   word_font: "gebinee",
   phonetic_font: "gebinee",
   ui_font: "system-ui",
+  ui_font_cn: "微软雅黑",
   theme: "dark",
 };
 
@@ -127,10 +127,11 @@ applyAppearance(settings);
 
 | CSS 变量 | 来源字段 | 默认值 |
 |---|---|---|
-| `--gebinee-font-size` | `font_size` | `14px` |
 | `--gebinee-word-font` | `word_font` | `gebinee` |
 | `--gebinee-phonetic-font` | `phonetic_font` | `gebinee` |
-| `--gebinee-ui-font` | `ui_font` | `system-ui` |
+| `--gebinee-ui-font` | `ui_font` + `ui_font_cn` | `system-ui` |
+
+> `--gebinee-ui-font` 会合并 `ui_font`（西文）和 `ui_font_cn`（中文），构建 `"西文字体", "中文字体", sans-serif` 的 CSS font-family 回退链。当 `ui_font` 为 `system-ui` 时，自动替换为 `Arial, Helvetica, sans-serif` 以避免 `system-ui` 的 CJK 字形阻止中文字体回退。
 
 在消费项目模板中通过 `var(--gebinee-word-font)` 等引用字体：
 
@@ -201,7 +202,7 @@ import type {
 | 类型 | 说明 |
 |---|---|
 | `ThemeMode` | `"light" \| "dark" \| "auto"` |
-| `AppearanceSettings` | 外观配置（font_size / word_font / phonetic_font / ui_font / theme） |
+| `AppearanceSettings` | 外观配置（word_font / phonetic_font / ui_font / ui_font_cn / theme） |
 | `DatabaseConfig` | 数据库配置（db_path） |
 | `FontOption` | 字体下拉选项（label / value） |
 | `CustomFont` | 自定义字体注册项（name / file_path） |

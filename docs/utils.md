@@ -48,10 +48,10 @@ type ErrorMessageFn = (e: unknown) => string;
 import { applyAppearance, type AppearanceSettings } from "@gebinee/components";
 
 const settings: AppearanceSettings = {
-  font_size: 16,
   word_font: "gebinee",
   phonetic_font: "gebinee",
   ui_font: "system-ui",
+  ui_font_cn: "微软雅黑",
   theme: "dark",
 };
 
@@ -62,10 +62,11 @@ applyAppearance(settings);
 
 | CSS 变量 | 来源字段 | 默认值 | 作用范围 |
 |---|---|---|---|
-| `--gebinee-font-size` | `font_size` | `14px` | `.gebinee` 作用域 |
 | `--gebinee-word-font` | `word_font` | `gebinee` | 由消费项目引用 |
 | `--gebinee-phonetic-font` | `phonetic_font` | `gebinee` | 由消费项目引用 |
-| `--gebinee-ui-font` | `ui_font` | `system-ui` | 由消费项目引用 |
+| `--gebinee-ui-font` | `ui_font` + `ui_font_cn` | `system-ui` | 由消费项目引用 |
+
+> `--gebinee-ui-font` 会合并 `ui_font`（西文）和 `ui_font_cn`（中文），构建 `"西文字体", "中文字体", sans-serif` 的 CSS font-family 回退链。当 `ui_font` 为 `system-ui` 时，自动替换为 `Arial, Helvetica, sans-serif` 以避免 `system-ui` 的 CJK 字形阻止中文字体回退。
 
 ### 主题应用
 
@@ -81,7 +82,6 @@ applyAppearance(settings);
 
 - 字体变量加 `--gebinee` 前缀，避免与消费项目的 `--word-font` 等变量冲突
 - `--gebinee-ui-font` 仅设置变量值，由消费项目自行引用（如 `--el-font-family: var(--gebinee-ui-font)`）
-- `--gebinee-font-size` 仅作用于 `.gebinee` 作用域，不影响 Element Plus 其他组件的字号
 - 即使不调用 `applyAppearance()`，`:root` 也有默认变量声明（见 `base.css`），`var(--gebinee-xxx)` 可正常解析
 
 ---
@@ -97,7 +97,7 @@ isSystemFontName("system-ui");    // true
 isSystemFontName("gebinee");      // true
 isSystemFontName("");             // true
 isSystemFontName(null);           // true
-isSystemFontName("微软雅黑");      // false
+isSystemFontName("微软雅黑");      // true（平台字体）
 isSystemFontName("MyCustomFont"); // false
 ```
 
@@ -105,8 +105,11 @@ isSystemFontName("MyCustomFont"); // false
 
 以下值视为"系统/内置字体"：
 - `null` / `undefined` / 空字符串
-- `"system-ui"`
-- `"gebinee"`（组件库内置字体）
+- `"system-ui"`、`"gebinee"`（组件库内置字体）
+- 跨平台通用字体：`"arial"`、`"georgia"`、`"verdana"`、`"trebuchet ms"`、`"courier new"`
+- Windows 平台字体：`"consolas"`、`"times new roman"`、`"segoe ui"`、`"微软雅黑"`、`"宋体"`、`"楷体"`、`"仿宋"`、`"黑体"`
+- macOS 平台字体：`"helvetica"`、`"monaco"`、`"menlo"`、`"pingfang sc"`、`"heiti sc"`、`"stkaiti"`、`"stsong"`
+- Linux 平台字体：`"dejavu sans"`、`"dejavu sans mono"`、`"liberation sans"`、`"liberation serif"`、`"noto sans cjk sc"`、`"noto serif cjk sc"`
 
 ### 用途
 
@@ -228,3 +231,80 @@ for (const f of fonts) {
 
 - 串行注册（非并行），确保 `@font-face` 注入顺序
 - 空数组或 `null` / `undefined` 直接返回
+
+---
+
+## getDefaultFontOptions
+
+获取当前平台的默认西文字体选项列表。
+
+```ts
+import { getDefaultFontOptions } from "@gebinee/components";
+
+const options = getDefaultFontOptions();
+// 返回：FontOption[]，包含跨平台通用字体 + 当前平台专属字体
+// 例如 Windows 上返回：[{ label: "跟随系统", value: "system-ui" }, { label: "Gebinee", ... }, ... { label: "Consolas", ... }, ...]
+```
+
+### 返回值
+
+`FontOption[]`，包含以下字体（按平台不同）：
+
+| 分类 | 字体 |
+|---|---|
+| 跨平台通用 | system-ui, gebinee, Arial, Georgia, Verdana, Trebuchet MS, Courier New |
+| Windows | Consolas, Times New Roman, Segoe UI |
+| macOS | Helvetica, Monaco, Menlo |
+| Linux | DejaVu Sans, DejaVu Sans Mono, Liberation Sans, Liberation Serif |
+
+> 该函数是 `AppearanceTab` 的 `fontOptions` 默认值来源。不包含"跟随系统"选项（该选项仅在 `fontOptionsCn` 中出现）。
+
+---
+
+## getDefaultFontOptionsCn
+
+获取当前平台的中文字体选项列表。
+
+```ts
+import { getDefaultFontOptionsCn } from "@gebinee/components";
+
+const options = getDefaultFontOptionsCn();
+// 返回：FontOption[]，第一项为"跟随系统"（value 为空字符串），后续为当前平台中文字体
+```
+
+### 返回值
+
+`FontOption[]`，第一项固定为 `{ label: "跟随系统", value: "" }`，后续按平台：
+
+| 平台 | 字体 |
+|---|---|
+| Windows | 微软雅黑, 宋体, 楷体, 仿宋, 黑体 |
+| macOS | PingFang SC, Heiti SC, STKaiti, STSong |
+| Linux | Noto Sans CJK SC, Noto Serif CJK SC |
+
+> 该函数是 `AppearanceTab` 的 `fontOptionsCn` 默认值来源。
+
+---
+
+## detectOS
+
+检测当前操作系统类型。
+
+```ts
+import { detectOS, type OSType } from "@gebinee/components";
+
+const os: OSType = detectOS();
+// 返回 "windows" | "macos" | "linux"
+```
+
+### 检测方式
+
+通过 `navigator.platform` 判断。在非浏览器环境（SSR）中默认返回 `"windows"`。
+
+### OSType 类型
+
+```ts
+type OSType = "windows" | "macos" | "linux";
+```
+
+> 消费项目可根据此函数实现平台特定的逻辑（如加载不同平台的字体文件）。

@@ -10,15 +10,15 @@ import { ref } from "vue";
 import { AppearanceTab, type AppearanceSettings, type FontOption } from "@gebinee/components";
 
 const appearance = ref<AppearanceSettings>({
-  font_size: 16,
   word_font: "system-ui",
   phonetic_font: "system-ui",
   ui_font: "system-ui",
+  ui_font_cn: "",
   theme: "auto",
 });
 
 const fontOptions: FontOption[] = [
-  { label: "系统默认", value: "system-ui" },
+  { label: "跟随系统", value: "system-ui" },
   { label: "Gebinee 字体", value: "gebinee" },
   { label: "微软雅黑", value: "Microsoft YaHei" },
 ];
@@ -42,7 +42,9 @@ function onPickFont() {
 | 属性 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
 | `modelValue` | `AppearanceSettings` | — | 外观配置（v-model 绑定） |
-| `fontOptions` | `FontOption[]` | `[]` | 字体下拉选项列表 |
+| `fontOptions` | `FontOption[]` | 平台字体列表 | 西文字体下拉选项。默认值为当前操作系统的常用字体列表（通过 `getDefaultFontOptions()` 获取），不含"跟随系统"选项 |
+| `fontOptionsCn` | `FontOption[]` | 平台中文字体列表 | 中文字体下拉选项。默认值为当前操作系统的常用中文字体列表（通过 `getDefaultFontOptionsCn()` 获取），含"跟随系统"选项 |
+| `replaceFontOptions` | `boolean` | `false` | 为 `true` 时 `fontOptions` / `fontOptionsCn` 完全替换内置默认值，为 `false` 时合并追加 |
 | `showTheme` | `boolean` | `true` | 是否显示主题模式选择 |
 | `showWordFont` | `boolean` | `true` | 是否显示单词字体下拉 |
 | `showPhoneticFont` | `boolean` | `true` | 是否显示注音字体下拉 |
@@ -55,15 +57,15 @@ function onPickFont() {
 type ThemeMode = "light" | "dark" | "auto";
 
 interface AppearanceSettings {
-  font_size?: number;
   word_font?: string;
   phonetic_font?: string;
   ui_font?: string;
+  ui_font_cn?: string;
   theme?: ThemeMode;
 }
 ```
 
-> **注意**：`font_size` 字段在 `AppearanceTab` 中没有对应的 UI 控件。该值需由消费项目通过其他方式设置（如单独的字号选择器），并通过 `applyAppearance()` 应用。
+> **注意**：`ui_font_cn` 是中文字体字段，当 `ui_font` 设置为 `system-ui` 时，设置 `ui_font_cn` 可确保中文字体正常回退。西文和中文字体分别渲染，实现中西文混排时各自使用对应字体。
 
 ### FontOption 类型
 
@@ -90,8 +92,8 @@ interface FontOption {
 ```vue
 <AppearanceTab v-model="appearance" :font-options="fontOptions">
   <el-divider content-position="left">高级</el-divider>
-  <el-form-item label="字号">
-    <el-input-number v-model="appearance.font_size" :min="12" :max="32" />
+  <el-form-item label="自定义选项">
+    <el-input v-model="customValue" />
   </el-form-item>
 </AppearanceTab>
 ```
@@ -153,4 +155,5 @@ function updateField(field, value) {
 
 - 字体下拉的 `fontOptions` 应包含 `"system-ui"` 选项，作为默认值
 - `"gebinee"` 是组件库内置字体，可直接作为选项值使用
+- `fontOptionsCn` 默认包含 `"跟随系统"` 选项（value 为空字符串），用于中文字体回退
 - `pick-font-file` 事件仅通知消费项目，实际的字体文件选择和注册逻辑由消费项目实现

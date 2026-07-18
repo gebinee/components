@@ -19,17 +19,17 @@ const visible = ref(false);
 const saving = ref(false);
 
 const appearance = ref<AppearanceSettings>({
-  font_size: 16,
   word_font: "system-ui",
   phonetic_font: "system-ui",
   ui_font: "system-ui",
+  ui_font_cn: "",
   theme: "auto",
 });
 
 const database = ref<DatabaseConfig>({ db_path: "" });
 
 const fontOptions: FontOption[] = [
-  { label: "系统默认", value: "system-ui" },
+  { label: "跟随系统", value: "system-ui" },
   { label: "微软雅黑", value: "Microsoft YaHei" },
 ];
 
@@ -91,7 +91,7 @@ function onSave() {
 | `showAboutTab` | `boolean` | `true` | 是否显示"关于"tab |
 | `appName` | `string` | `""` | 应用名称 |
 | `appIcon` | `Component \| null` | `null` | 应用图标组件（Element Plus icon） |
-| `iconColor` | `string` | `"#2da44e"` | 应用图标颜色 |
+| `iconColor` | `string` | `"var(--gebinee-primary-color)"` | 应用图标颜色。默认使用组件库主题色（Element Plus `--el-color-primary`） |
 | `appVersion` | `string` | `""` | 应用版本号。不传则运行时通过 `getVersion()` 读取 |
 | `showUpdateButton` | `boolean` | `true` | 关于 tab 是否显示"检查更新"按钮 |
 
@@ -108,7 +108,9 @@ function onSave() {
 |---|---|---|---|
 | `appearance` | `AppearanceSettings` | `{}` | 外观配置（`v-model:appearance`） |
 | `database` | `DatabaseConfig` | `{}` | 数据库配置（`v-model:database`） |
-| `fontOptions` | `FontOption[]` | `[]` | 字体下拉选项 |
+| `fontOptions` | `FontOption[]` | `undefined` | 西文字体下拉选项。不传则由 `AppearanceTab` 使用平台默认字体列表 |
+| `fontOptionsCn` | `FontOption[]` | `undefined` | 中文字体下拉选项。不传则由 `AppearanceTab` 使用平台默认中文字体列表 |
+| `replaceFontOptions` | `boolean` | `false` | 为 `true` 时 `fontOptions` / `fontOptionsCn` 完全替换内置默认值，为 `false` 时合并追加 |
 
 ### AppearanceTab 透传
 
