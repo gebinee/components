@@ -14,7 +14,7 @@ export function detectOS(): OSType {
 
 /** 各平台共用的西文字体 */
 const COMMON_FONTS: FontOption[] = [
-  { label: "系统默认", value: "system-ui" },
+  { label: "跟随系统", value: "system-ui" },
   { label: "Gebinee", value: "gebinee" },
   { label: "Arial", value: "Arial" },
   { label: "Georgia", value: "Georgia" },
@@ -70,10 +70,10 @@ export function getDefaultFontOptions(): FontOption[] {
   return [...COMMON_FONTS, ...PLATFORM_FONTS[os]];
 }
 
-/** 获取当前平台的默认中文字体选项（"系统默认" 始终在第一项） */
+/** 获取当前平台的默认中文字体选项（"跟随系统" 始终在第一项） */
 export function getDefaultFontOptionsCn(): FontOption[] {
   const os = detectOS();
-  return [{ label: "系统默认", value: "" }, ...PLATFORM_CN_FONTS[os]];
+  return [{ label: "跟随系统", value: "" }, ...PLATFORM_CN_FONTS[os]];
 }
 
 let mediaListenerBound = false;

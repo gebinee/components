@@ -126,7 +126,7 @@ const showCnFonts = computed(() => props.fontOptionsCn.length > 0);
           </div>
           <div v-if="showCnFonts" class="font-col">
             <span class="font-sub-label">中文</span>
-            <el-select v-model="uiFontCn" clearable placeholder="系统默认">
+            <el-select v-model="uiFontCn" clearable placeholder="跟随系统">
               <el-option
                 v-for="o in fontOptionsCn"
                 :key="o.value"

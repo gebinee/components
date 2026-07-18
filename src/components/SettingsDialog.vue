@@ -49,6 +49,8 @@ const props = withDefaults(
     database?: DatabaseConfig;
     // 字体选项：[{ label, value }]
     fontOptions?: FontOption[];
+    // 中文字体选项：[{ label, value }]
+    fontOptionsCn?: FontOption[];
     // —— AppearanceTab 细粒度显隐透传 ——
     showTheme?: boolean;
     showWordFont?: boolean;
@@ -77,7 +79,6 @@ const props = withDefaults(
     showDatabaseTab: false,
     appearance: () => ({}),
     database: () => ({}),
-    fontOptions: () => [],
     showTheme: true,
     showWordFont: true,
     showPhoneticFont: true,
@@ -216,6 +217,7 @@ function onCancel(): void {
           <AppearanceTab
             v-model="appearanceProxy"
             :font-options="fontOptions"
+            :font-options-cn="fontOptionsCn"
             :show-theme="showTheme"
             :show-word-font="showWordFont"
             :show-phonetic-font="showPhoneticFont"
