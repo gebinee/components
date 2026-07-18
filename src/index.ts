@@ -57,6 +57,7 @@ export type {
 
 export type { OSType } from "./utils/theme";
 
+// noinspection JSUnusedGlobalSymbols
 export default {
   SettingsDialog,
   UpdateDialog,
