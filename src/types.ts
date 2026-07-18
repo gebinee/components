@@ -8,6 +8,7 @@ export interface AppearanceSettings {
   word_font?: string;
   phonetic_font?: string;
   ui_font?: string;
+  ui_font_cn?: string;
   theme?: ThemeMode;
 }
 

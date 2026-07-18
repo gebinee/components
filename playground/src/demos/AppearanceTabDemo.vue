@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { AppearanceTab, GebineeInput, applyAppearance, type AppearanceSettings, type FontOption } from "@gebinee/components";
+import { AppearanceTab, GebineeInput, applyAppearance, type AppearanceSettings } from "@gebinee/components";
 
 const appearance = ref<AppearanceSettings>({
   word_font: "system-ui",
   phonetic_font: "system-ui",
   ui_font: "system-ui",
+  ui_font_cn: undefined,
   theme: "auto",
 });
-
-const fontOptions: FontOption[] = [
-  { label: "系统默认", value: "system-ui" },
-  { label: "Gebinee 字体", value: "gebinee" },
-];
 
 function onPickFont() {
   console.log("[demo] 触发 pick-font-file");
@@ -35,7 +31,6 @@ watch(appearance, (v) => {
       <div class="panel">
         <AppearanceTab
           v-model="appearance"
-          :font-options="fontOptions"
           @pick-font-file="onPickFont"
         />
       </div>
@@ -77,8 +72,8 @@ watch(appearance, (v) => {
         </div>
         <div class="preview-row">
           <span class="label">单词字体</span>
-          <span class="word-sample" :style="{ fontFamily: appearance.word_font || 'system-ui' }">
-            hello / world / vocabulary / 1234567890
+          <span class="word-sample" style="font-family: var(--gebinee-word-font)">
+            hello / world / vocabulary / 你好世界
           </span>
           <GebineeInput
             v-model="wordInput"
@@ -90,14 +85,14 @@ watch(appearance, (v) => {
         </div>
         <div class="preview-row">
           <span class="label">注音字体</span>
-          <span class="word-sample" :style="{ fontFamily: appearance.phonetic_font || 'system-ui' }">
+          <span class="word-sample" style="font-family: var(--gebinee-phonetic-font)">
             /həˈloʊ/ /wɜːrld/ /ˈvæbjəlɛri/
           </span>
         </div>
         <div class="preview-row">
           <span class="label">UI 字体（纯文本）</span>
-          <span class="word-sample" :style="{ fontFamily: appearance.ui_font || 'system-ui' }">
-            The quick brown fox jumps over the lazy dog. ABCDEFG 1234567890
+          <span class="word-sample" style="font-family: var(--gebinee-ui-font)">
+            The quick brown fox jumps over the lazy dog. 敏捷的棕色狐狸跳过了懒狗。ABCDEFG 1234567890
           </span>
         </div>
       </div>

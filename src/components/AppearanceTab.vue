@@ -9,6 +9,7 @@ const props = withDefaults(
   defineProps<{
     modelValue: AppearanceSettings;
     fontOptions?: FontOption[];
+    fontOptionsCn?: FontOption[];
     // 细粒度显隐控制（默认均为 true，保持向后兼容）
     showTheme?: boolean;
     showWordFont?: boolean;
@@ -17,7 +18,18 @@ const props = withDefaults(
     showFontUpload?: boolean;
   }>(),
   {
-    fontOptions: () => [],
+    fontOptions: () => [
+      { label: "系统默认", value: "system-ui" },
+      { label: "Gebinee 字体", value: "gebinee" },
+      { label: "Arial", value: "Arial" },
+      { label: "Georgia", value: "Georgia" },
+      { label: "Verdana", value: "Verdana" },
+      { label: "Trebuchet MS", value: "Trebuchet MS" },
+      { label: "Courier New", value: "Courier New" },
+    ],
+    fontOptionsCn: () => [
+      { label: "系统默认", value: "" },
+    ],
     showTheme: true,
     showWordFont: true,
     showPhoneticFont: true,
@@ -57,10 +69,16 @@ const uiFont = computed({
   get: () => props.modelValue.ui_font ?? "system-ui",
   set: (v) => updateField("ui_font", v),
 });
+const uiFontCn = computed({
+  get: () => props.modelValue.ui_font_cn ?? "",
+  set: (v) => updateField("ui_font_cn", v || undefined),
+});
 const theme = computed({
   get: () => props.modelValue.theme ?? "auto",
   set: (v) => updateField("theme", v),
 });
+
+const showCnFonts = computed(() => props.fontOptionsCn.length > 0);
 </script>
 
 <template>
@@ -103,14 +121,30 @@ const theme = computed({
         </el-select>
       </el-form-item>
       <el-form-item v-if="showUiFont" label="UI 字体">
-        <el-select v-model="uiFont" style="width: 100%">
-          <el-option
-            v-for="o in fontOptions"
-            :key="o.value"
-            :label="o.label"
-            :value="o.value"
-          />
-        </el-select>
+        <div class="font-row">
+          <div class="font-col">
+            <span class="font-sub-label">西文</span>
+            <el-select v-model="uiFont">
+              <el-option
+                v-for="o in fontOptions"
+                :key="o.value"
+                :label="o.label"
+                :value="o.value"
+              />
+            </el-select>
+          </div>
+          <div v-if="showCnFonts" class="font-col">
+            <span class="font-sub-label">中文</span>
+            <el-select v-model="uiFontCn" clearable placeholder="系统默认">
+              <el-option
+                v-for="o in fontOptionsCn"
+                :key="o.value"
+                :label="o.label"
+                :value="o.value"
+              />
+            </el-select>
+          </div>
+        </div>
       </el-form-item>
       <el-form-item v-if="showFontUpload">
         <GebineeButton @click="emit('pick-font-file')">
@@ -131,6 +165,22 @@ const theme = computed({
   font-size: 12px;
   color: var(--el-text-color-secondary);
   margin-left: 8px;
+}
+
+.font-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.font-col {
+  flex: 1;
+  min-width: 0;
+}
+.font-sub-label {
+  display: block;
+  font-size: 12px;
+  color: var(--el-text-color-secondary);
+  margin-bottom: 4px;
 }
 
 /*noinspection CssUnusedSymbol*/
